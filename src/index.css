@@ -104,8 +104,13 @@ body {
 .input-field::placeholder { color: var(--color-text-light); }
 .input-field:focus { outline: none; border-color: var(--color-accent); }
 
-/* Landscape mobile — modals must not overflow */
+/* Landscape mobile */
 @media (orientation: landscape) and (max-height: 500px) {
+  .landscape-nav { display: none !important; }
+  .landscape-toggle { display: flex !important; }
+  .landscape-menu { display: block !important; }
+
+  /* Modals must not overflow */
   .fixed.inset-0 {
     align-items: flex-start !important;
     padding-top: 2rem !important;

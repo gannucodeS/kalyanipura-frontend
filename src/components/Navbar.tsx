@@ -37,7 +37,7 @@ export default function Navbar({ onOpenGiving, onOpenPrayer, onOpenWatch }: Navb
           </button>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex landscape-nav items-center gap-8">
             {[
               { label: 'Services', id: 'service-times' },
               { label: 'Ministries', id: 'ministries' },
@@ -59,7 +59,7 @@ export default function Navbar({ onOpenGiving, onOpenPrayer, onOpenWatch }: Navb
           </div>
 
           {/* Desktop CTAs */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex landscape-nav items-center gap-3">
             <button onClick={onOpenWatch}
               className="btn-outline text-xs py-2.5 px-5 transition">
               Watch Live
@@ -68,13 +68,13 @@ export default function Navbar({ onOpenGiving, onOpenPrayer, onOpenWatch }: Navb
 
           {/* Mobile toggle */}
           <button onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 cursor-pointer transition text-[#1a1625]">
+            className="md:hidden landscape-toggle p-2 cursor-pointer transition text-[#1a1625]">
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
         {/* Mobile menu — always mounted, GPU-accelerated animation */}
-        <div className={`md:hidden absolute top-full left-0 right-0 bg-white border-b border-[#e5e0ec] shadow-sm z-50 transition-all duration-300 ease-out ${isOpen ? 'opacity-100 translate-y-0 pointer-events-auto visible' : 'opacity-0 -translate-y-2 pointer-events-none invisible'}`}>
+        <div className={`md:hidden landscape-menu absolute top-full left-0 right-0 bg-white border-b border-[#e5e0ec] shadow-sm z-50 transition-all duration-300 ease-out ${isOpen ? 'opacity-100 translate-y-0 pointer-events-auto visible' : 'opacity-0 -translate-y-2 pointer-events-none invisible'}`}>
           <div className="px-6 py-6 space-y-5">
             <div className="space-y-4 border-b border-[#e5e0ec] pb-5">
               {[
