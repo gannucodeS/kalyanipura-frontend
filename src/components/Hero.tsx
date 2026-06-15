@@ -11,30 +11,31 @@ interface HeroProps {
 export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
 
   return (
-    <section id="hero" className="relative w-full aspect-[853/1844] sm:aspect-[4/3] lg:aspect-video overflow-hidden">
-      {/* Mobile bg */}
-      <div className="absolute inset-0 sm:hidden" style={{
-        backgroundImage: `url(${heroMobileBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }} />
-      {/* Tablet bg */}
-      <div className="absolute inset-0 hidden sm:block lg:hidden" style={{
-        backgroundImage: `url(${heroTabletBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }} />
-      {/* Desktop bg */}
-      <div className="absolute inset-0 hidden lg:block" style={{
-        backgroundImage: `url(${heroBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }} />
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/5" />
+    <div className="bg-white">
+      <section id="hero" className="relative w-full aspect-[853/1844] sm:aspect-[4/3] lg:aspect-video mt-20 overflow-hidden">
+        {/* Mobile bg */}
+        <div className="absolute inset-0 sm:hidden" style={{
+          backgroundImage: `url(${heroMobileBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }} />
+        {/* Tablet bg */}
+        <div className="absolute inset-0 hidden sm:block lg:hidden" style={{
+          backgroundImage: `url(${heroTabletBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }} />
+        {/* Desktop bg */}
+        <div className="absolute inset-0 hidden lg:block" style={{
+          backgroundImage: `url(${heroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }} />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/5" />
 
-      {/* Content */}
-      <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-48 md:pt-40 pb-4 flex flex-col gap-4 md:gap-5 sm:gap-6 justify-start overflow-y-auto">
+        {/* Content */}
+        <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-8 pb-4 flex flex-col gap-4 md:gap-5 sm:gap-6 justify-start overflow-y-auto">
         <div className="space-y-3 sm:space-y-3 max-w-2xl fade-up">
           <div className="label text-xs tracking-widest">Established 1954</div>
 
@@ -70,6 +71,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </div>
   );
 }
