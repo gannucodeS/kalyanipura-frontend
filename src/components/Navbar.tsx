@@ -27,8 +27,8 @@ export default function Navbar({ onOpenGiving, onOpenPrayer, onOpenWatch }: Navb
   const navBg = 'bg-white border-b border-[#e5e0ec]';
 
   return (
-    <header className="w-full z-50 relative">
-      <nav className={`w-full transition-all duration-300 px-6 sm:px-12 ${scrolled ? 'fixed top-0 py-4 shadow-sm' : 'relative py-5'} ${navBg}`}>
+    <header className="w-full z-50">
+      <nav className={`w-full fixed top-0 transition-all duration-300 px-6 sm:px-12 ${scrolled ? 'py-4 shadow-sm' : 'py-5'} ${navBg}`}>
         <div className="max-w-6xl mx-auto flex justify-between items-center">
 
           {/* Logo */}
