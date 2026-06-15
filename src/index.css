@@ -39,6 +39,7 @@ body {
 /* Typography scale (Swiss style: use type as structure) */
 .h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
 @media (min-width: 640px) { .h1 { font-size: 3.5rem; } }
+@media (max-width: 639px) { .h1-mobile { font-size: 1.7rem; } }
 .h2 { font-size: 1.75rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
 @media (min-width: 640px) { .h2 { font-size: 2.5rem; } }
 .h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; }
