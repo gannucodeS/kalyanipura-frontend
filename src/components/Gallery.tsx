@@ -98,7 +98,7 @@ export default function Gallery() {
           className="flex gap-4 overflow-x-auto pb-10 sm:pb-16 cursor-grab active:cursor-grabbing select-none lg:justify-center"
           style={{ scrollbarWidth: 'none' }}>
           {GALLERY_ITEMS.map((item) => (
-            <div key={item.id} className="relative shrink-0 w-72 sm:w-80 border border-[#e5e0ec] bg-white p-2 flex flex-col">
+            <div key={item.id} className="relative shrink-0 w-72 lg:w-80 border border-[#e5e0ec] bg-white p-2 flex flex-col">
               <img
                 src={item.imageUrl}
                 alt={item.description}

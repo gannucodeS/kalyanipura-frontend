@@ -27,7 +27,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
       <div className="absolute inset-0 bg-black/5" />
 
       {/* Content */}
-      <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-48 sm:pt-48 pb-4 flex flex-col gap-4 sm:gap-6 justify-start overflow-y-auto">
+      <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-48 md:pt-40 pb-4 flex flex-col gap-4 md:gap-5 sm:gap-6 justify-start overflow-y-auto">
         <div className="space-y-3 sm:space-y-3 max-w-2xl fade-up">
           <div className="label text-xs tracking-widest">Established 1954</div>
 
@@ -37,7 +37,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
 
           <div className="w-16 h-px bg-white/80" />
 
-          <p className="text-sm sm:text-sm text-white/70 max-w-xl font-light leading-relaxed">
+          <p className="text-sm md:text-base sm:text-sm text-white/70 max-w-xl font-light leading-relaxed">
             A spiritual sanctuary in Kalyanipura dedicated to fostering belonging, renewal, and eternal purpose through faithful fellowship and genuine worship.
           </p>
         </div>
@@ -56,7 +56,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         </div>
 
         <div className="fade-up-delay-2 pt-12 sm:pt-14 space-y-2">
-          <div className="h-px bg-white/30 w-[75vw] sm:w-[25vw]" />
+          <div className="h-px bg-white/30 w-[75vw] md:w-[35vw] lg:w-[25vw]" />
           <div className="flex items-center gap-2 text-sm font-light leading-relaxed" style={{ color: '#6b5c93' }}>
             <MapPin className="w-4 h-4 sm:w-4 sm:h-4 shrink-0" style={{ color: '#6b5c93' }} />
             Kalyanipura, Ajmer, Rajasthan
