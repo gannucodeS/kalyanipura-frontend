@@ -19,13 +19,13 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         backgroundPosition: 'center',
       }} />
       {/* Tablet bg */}
-      <div className="absolute inset-0 hidden sm:block md:hidden" style={{
+      <div className="absolute inset-0 hidden sm:block lg:hidden" style={{
         backgroundImage: `url(${heroTabletBg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }} />
       {/* Desktop bg */}
-      <div className="absolute inset-0 hidden md:block" style={{
+      <div className="absolute inset-0 hidden lg:block" style={{
         backgroundImage: `url(${heroBg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
