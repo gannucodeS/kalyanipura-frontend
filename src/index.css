@@ -82,6 +82,16 @@ body {
   background: var(--color-bg-light);
 }
 
+@media (max-width: 639px) {
+  .btn-primary, .btn-outline {
+    font-size: 0.7rem;
+    padding: 0.45rem 0.9rem;
+  }
+  .btn-outline {
+    border-width: 0.5px;
+  }
+}
+
 /* Section bg (alternating) */
 .section-white { background: #ffffff; }
 .section-light { background: #f9f7fc; }
