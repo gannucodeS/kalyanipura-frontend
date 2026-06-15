@@ -1,6 +1,7 @@
 import { Play, MapPin } from 'lucide-react';
 import heroBg from '../assets/hero demo 1.png';
 import heroMobileBg from '../assets/hero mobile.png';
+import heroTabletBg from '../assets/hero tablet.png';
 
 interface HeroProps {
   onOpenWatch: () => void;
@@ -17,8 +18,14 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }} />
+      {/* Tablet bg */}
+      <div className="absolute inset-0 hidden sm:block md:hidden" style={{
+        backgroundImage: `url(${heroTabletBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }} />
       {/* Desktop bg */}
-      <div className="absolute inset-0 hidden sm:block" style={{
+      <div className="absolute inset-0 hidden md:block" style={{
         backgroundImage: `url(${heroBg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
