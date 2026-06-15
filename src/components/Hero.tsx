@@ -13,7 +13,6 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
       backgroundImage: `url(${heroBg})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
     }}>
       {/* Overlay to darken for text legibility */}
       <div className="absolute inset-0 bg-black/5" />
