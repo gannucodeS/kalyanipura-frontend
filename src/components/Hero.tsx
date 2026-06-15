@@ -11,7 +11,7 @@ interface HeroProps {
 export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
 
   return (
-    <section id="hero" className="relative w-full aspect-[853/1844] sm:aspect-video overflow-hidden">
+    <section id="hero" className="relative w-full aspect-[853/1844] sm:aspect-[4/3] lg:aspect-video overflow-hidden">
       {/* Mobile bg */}
       <div className="absolute inset-0 sm:hidden" style={{
         backgroundImage: `url(${heroMobileBg})`,
