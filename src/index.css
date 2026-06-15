@@ -104,6 +104,20 @@ body {
 .input-field::placeholder { color: var(--color-text-light); }
 .input-field:focus { outline: none; border-color: var(--color-accent); }
 
+/* Landscape mobile — modals must not overflow */
+@media (orientation: landscape) and (max-height: 500px) {
+  .fixed.inset-0 {
+    align-items: flex-start !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  .fixed.inset-0 > [class*="max-w"] {
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    padding: 1.25rem !important;
+  }
+}
+
 /* Grid helper (Swiss uses visible structure) */
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
 @media (max-width: 768px) {

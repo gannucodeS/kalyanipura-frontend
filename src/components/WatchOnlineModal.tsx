@@ -8,7 +8,7 @@ interface WatchOnlineModalProps {
 export default function WatchOnlineModal({ isOpen, onClose }: WatchOnlineModalProps) {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1a1625]/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1a1625]/50 backdrop-blur-sm overflow-y-auto">
       <div className="w-full max-w-lg bg-white border border-[#e5e0ec] p-8 space-y-7 relative">
         <button onClick={onClose} className="absolute top-5 right-5 text-[#8a8299] hover:text-[#1a1625] transition cursor-pointer">
           <X className="w-5 h-5" />
