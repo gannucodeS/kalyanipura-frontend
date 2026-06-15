@@ -19,7 +19,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
       <div className="absolute inset-0 bg-black/5" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-24 sm:pt-28 pb-20 sm:pb-32 flex flex-col gap-8 sm:gap-12">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-32 sm:pt-36 pb-20 sm:pb-32 flex flex-col gap-8 sm:gap-12">
         <div className="space-y-6 max-w-2xl fade-up">
           {/* Eyebrow label */}
           <div className="label text-xs tracking-widest">Established 1954</div>
