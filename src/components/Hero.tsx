@@ -35,7 +35,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         <div className="absolute inset-0 bg-black/5" />
 
         {/* Content */}
-        <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-16 sm:pt-14 lg:pt-8 pb-4 flex flex-col gap-4 md:gap-5 sm:gap-6 justify-start overflow-y-auto">
+        <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-32 sm:pt-[7.5rem] lg:pt-36 pb-4 flex flex-col gap-4 md:gap-5 sm:gap-6 justify-start ">
         <div className="space-y-3 sm:space-y-3 max-w-2xl fade-up">
           <div className="label text-xs tracking-widest">Established 1954</div>
 
