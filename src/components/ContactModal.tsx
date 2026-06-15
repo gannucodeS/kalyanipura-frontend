@@ -24,7 +24,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1a1625]/50 backdrop-blur-sm overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-[#1a1625]/50 backdrop-blur-sm overflow-y-auto">
       <div className="w-full max-w-2xl bg-white border border-[#e5e0ec] p-8 space-y-8 relative my-4">
         <button onClick={onClose} className="absolute top-5 right-5 text-[#8a8299] hover:text-[#1a1625] transition cursor-pointer">
           <X className="w-5 h-5" />
