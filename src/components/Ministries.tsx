@@ -73,7 +73,7 @@ export default function Ministries() {
 
       {/* Modal */}
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1a1625]/40 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-[#1a1625]/40 backdrop-blur-sm overflow-y-auto">
           <div className="w-full max-w-lg bg-white border border-[#e5e0ec] p-8 space-y-6 relative shadow-none">
             <button onClick={() => setSelected(null)}
               className="absolute top-5 right-5 text-[#8a8299] hover:text-[#1a1625] transition cursor-pointer">
