@@ -27,8 +27,8 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
       <div className="absolute inset-0 bg-black/5" />
 
       {/* Content */}
-      <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-16 sm:pt-20 pb-4 flex flex-col gap-2 sm:gap-6 justify-center overflow-y-auto">
-        <div className="space-y-2 sm:space-y-3 max-w-2xl fade-up">
+      <div className="absolute inset-0 z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-16 sm:pt-20 pb-4 flex flex-col gap-4 sm:gap-6 justify-center overflow-y-auto">
+        <div className="space-y-3 sm:space-y-3 max-w-2xl fade-up">
           <div className="label text-xs tracking-widest">Established 1954</div>
 
           <h1 className="h1 h1-mobile text-white" style={{ lineHeight: 1.1 }}>
@@ -55,7 +55,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
           </button>
         </div>
 
-        <div className="fade-up-delay-2 pt-3 space-y-2">
+        <div className="fade-up-delay-2 pt-4 space-y-2">
           <div className="h-px bg-white/30 w-[75vw] sm:w-[50vw]" />
           <div className="flex items-center gap-2 text-sm font-light leading-relaxed" style={{ color: '#6b5c93' }}>
             <MapPin className="w-4 h-4 sm:w-4 sm:h-4 shrink-0" style={{ color: '#6b5c93' }} />
