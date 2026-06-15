@@ -1,5 +1,6 @@
 import { Play, MapPin } from 'lucide-react';
 import heroBg from '../assets/hero demo 1.png';
+import heroMobileBg from '../assets/hero mobile.png';
 
 interface HeroProps {
   onOpenWatch: () => void;
@@ -9,12 +10,20 @@ interface HeroProps {
 export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
 
   return (
-    <section id="hero" className="relative w-full aspect-video overflow-hidden" style={{
-      backgroundImage: `url(${heroBg})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    }}>
-      {/* Overlay to darken for text legibility */}
+    <section id="hero" className="relative w-full aspect-[853/1844] sm:aspect-video overflow-hidden">
+      {/* Mobile bg */}
+      <div className="absolute inset-0 sm:hidden" style={{
+        backgroundImage: `url(${heroMobileBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }} />
+      {/* Desktop bg */}
+      <div className="absolute inset-0 hidden sm:block" style={{
+        backgroundImage: `url(${heroBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }} />
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/5" />
 
       {/* Content */}
@@ -28,7 +37,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
 
           <div className="w-16 h-px bg-white/80" />
 
-          <p className="hidden sm:block text-sm text-white/70 max-w-xl font-light leading-relaxed">
+          <p className="text-sm sm:text-sm text-white/70 max-w-xl font-light leading-relaxed">
             A spiritual sanctuary in Kalyanipura dedicated to fostering belonging, renewal, and eternal purpose through faithful fellowship and genuine worship.
           </p>
         </div>
@@ -46,7 +55,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
           </button>
         </div>
 
-        <div className="fade-up-delay-2 pt-3 space-y-2 hidden sm:block">
+        <div className="fade-up-delay-2 pt-3 space-y-2">
           <div className="h-px bg-white/30 w-[75vw] sm:w-[50vw]" />
           <div className="flex items-center gap-2 text-sm font-light leading-relaxed" style={{ color: '#6b5c93' }}>
             <MapPin className="w-4 h-4 sm:w-4 sm:h-4 shrink-0" style={{ color: '#6b5c93' }} />
