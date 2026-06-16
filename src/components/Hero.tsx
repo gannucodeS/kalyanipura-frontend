@@ -63,7 +63,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
           </button>
         </div>
 
-        <div className="fade-up-delay-2 pt-12 sm:pt-14 space-y-2">
+        <div className="fade-up-delay-2 pt-12 sm:pt-14 md:pt-10 lg:pt-14 space-y-2">
           <div className="h-px bg-white/30 w-[75vw] md:w-[35vw] lg:w-[25vw]" />
           <div className="flex items-center gap-2 text-sm font-light leading-relaxed" style={{ color: '#6b5c93' }}>
             <MapPin className="w-4 h-4 sm:w-4 sm:h-4 shrink-0" style={{ color: '#6b5c93' }} />
