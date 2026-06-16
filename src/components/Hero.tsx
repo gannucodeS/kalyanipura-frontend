@@ -39,7 +39,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         <div className="space-y-3 sm:space-y-3 max-w-2xl fade-up">
           <div className="label text-xs tracking-widest">Established 1954</div>
 
-          <h1 className="h1 h1-mobile text-white" style={{ lineHeight: 1.1 }}>
+          <h1 className="h1 h1-mobile font-display text-white" style={{ lineHeight: 1.1 }}>
             Where Every<br />Soul Belongs
           </h1>
 
