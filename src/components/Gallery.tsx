@@ -8,117 +8,146 @@ export default function Gallery() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
 
+  useEffect(() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.querySelectorAll('.reveal, .reveal-scale').forEach((el, i) => setTimeout(() => el.classList.add('visible'), i * 80));
+      });
+    }, { threshold: 0.1 });
+    if (sectionRef.current) obs.observe(sectionRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  // Blur-to-sharp image reveal on scroll
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
-    if (slider.scrollWidth <= slider.clientWidth) return;
+    const imgs = slider.querySelectorAll('img[data-reveal]');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const idx = Number((e.target as HTMLElement).dataset.idx);
+          setVisibleCards(prev => new Set(prev).add(idx));
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3, root: slider });
+    imgs.forEach(img => obs.observe(img));
+    return () => obs.disconnect();
+  }, []);
 
-    const cardWidth = slider.children[0]?.clientWidth ?? 0;
-    if (cardWidth <= 0) return;
-
-    const gap = 16;
-    const step = cardWidth + gap;
-    let interval: ReturnType<typeof setInterval>;
-
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider || slider.scrollWidth <= slider.clientWidth) return;
+    const cardW = slider.children[0]?.clientWidth ?? 0;
+    if (cardW <= 0) return;
+    const step = cardW + 20;
     const slide = () => {
-      const maxScroll = slider.scrollWidth - slider.clientWidth;
-      const next = slider.scrollLeft + step;
-      if (next >= maxScroll) {
-        slider.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        slider.scrollTo({ left: next, behavior: 'smooth' });
-      }
+      const max = slider.scrollWidth - slider.clientWidth;
+      if (slider.scrollLeft + step >= max) slider.scrollTo({ left: 0, behavior: 'smooth' });
+      else slider.scrollBy({ left: step, behavior: 'smooth' });
     };
-
-    interval = setInterval(slide, 2000);
-
+    const interval = setInterval(slide, 2500);
     return () => clearInterval(interval);
   }, []);
 
-  const onMouseDown = (e: React.MouseEvent) => {
+  const onDown = (e: React.MouseEvent | React.TouchEvent) => {
     setIsDragging(true);
-    setStartX(e.pageX - (sliderRef.current?.offsetLeft ?? 0));
+    const clientX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+    setStartX(clientX - (sliderRef.current?.offsetLeft ?? 0));
     setScrollLeft(sliderRef.current?.scrollLeft ?? 0);
   };
-  const onMouseMove = (e: React.MouseEvent) => {
+  const onMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging || !sliderRef.current) return;
     e.preventDefault();
-    sliderRef.current.scrollLeft = scrollLeft - (e.pageX - sliderRef.current.offsetLeft - startX) * 1.5;
-  };
-  const stopDragging = () => setIsDragging(false);
-
-  const slidePrev = () => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    const cardWidth = (slider.children[0] as HTMLElement)?.offsetWidth ?? 0;
-    const gap = 16;
-    slider.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+    const clientX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+    sliderRef.current.scrollLeft = scrollLeft - (clientX - sliderRef.current.offsetLeft - startX) * 1.5;
   };
 
-  const slideNext = () => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    const cardWidth = (slider.children[0] as HTMLElement)?.offsetWidth ?? 0;
-    const gap = 16;
-    slider.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+  const slideDir = (dir: number) => {
+    const s = sliderRef.current;
+    if (!s) return;
+    const w = (s.children[0] as HTMLElement)?.offsetWidth ?? 0;
+    s.scrollBy({ left: dir * (w + 20), behavior: 'smooth' });
   };
 
   return (
-    <section ref={sectionRef} id="gallery" className="section-light">
-      <div className="divider" />
-
-      {/* Header — left-aligned as per Swiss */}
-      <div className="max-w-6xl mx-auto px-6 sm:px-12 pt-12 sm:pt-16 pb-8 sm:pb-10 flex items-end justify-between">
-        <div>
-          <div className="label mb-3">Our Community</div>
-          <h2 className="h2 text-[#1a1625]">Life at<br />Kalyanipura</h2>
+    <section ref={sectionRef} id="gallery" className="section section-white">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12 reveal">
+          <div>
+            <span className="label-tag mb-4 block">Our Community</span>
+            <h2 className="heading-lg">Life at Kalyanipura</h2>
+          </div>
+          <div className="hidden sm:flex gap-2">
+            <button onClick={() => slideDir(-1)}
+              className="w-10 h-10 flex items-center justify-center glass-light rounded-full shd-card transition-all duration-300 hover:scale-110 hover:shadow-[0_16px_60px_rgba(107,92,147,0.12)] cursor-pointer">
+              <ChevronLeft className="w-5 h-5 text-[#6b5c93]" />
+            </button>
+            <button onClick={() => slideDir(1)}
+              className="w-10 h-10 flex items-center justify-center glass-light rounded-full shd-card transition-all duration-300 hover:scale-110 hover:shadow-[0_16px_60px_rgba(107,92,147,0.12)] cursor-pointer">
+              <ChevronRight className="w-5 h-5 text-[#6b5c93]" />
+            </button>
+          </div>
         </div>
-        <span className="text-xs font-mono text-[#8a8299] tracking-widest hidden sm:block pb-2">
-          DRAG TO EXPLORE →
-        </span>
-      </div>
 
-      {/* Scrollable gallery — images in hairline border frames */}
-      <div className="relative px-6 sm:px-12">
-        <button onClick={slidePrev}
-          className="absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white text-[#4a4456] rounded-full transition cursor-pointer shadow-sm">
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button onClick={slideNext}
-          className="absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white text-[#4a4456] rounded-full transition cursor-pointer shadow-sm">
-          <ChevronRight className="w-5 h-5" />
-        </button>
-        <div
-          ref={sliderRef}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={stopDragging}
-          onMouseLeave={stopDragging}
-          className="flex gap-4 overflow-x-auto pb-10 sm:pb-16 cursor-grab active:cursor-grabbing select-none lg:justify-center"
-          style={{ scrollbarWidth: 'none' }}>
-          {GALLERY_ITEMS.map((item) => (
-            <div key={item.id} className="relative shrink-0 w-72 lg:w-80 border border-[#e5e0ec] bg-white p-2 flex flex-col">
-              <img
-                src={item.imageUrl}
-                alt={item.description}
-                className="w-full object-cover block"
-                style={{ height: '360px', filter: 'saturate(0.85)' }}
-                referrerPolicy="no-referrer"
-                draggable={false}
-              />
-              <div className="pt-3 pb-1 flex-1 space-y-1.5">
-                <span className="text-[10px] font-mono text-[#7b6ba3] tracking-widest uppercase">
-                  {item.category}
-                </span>
-                <p className="text-xs text-[#4a4456] leading-relaxed">{item.description}</p>
+        {/* Gallery */}
+        <div className="relative">
+          <div ref={sliderRef}
+            onMouseDown={onDown}
+            onMouseMove={onMove}
+            onMouseUp={() => setIsDragging(false)}
+            onMouseLeave={() => setIsDragging(false)}
+            onTouchStart={onDown}
+            onTouchMove={onMove}
+            onTouchEnd={() => setIsDragging(false)}
+            className="flex gap-5 overflow-x-auto pb-6 cursor-grab active:cursor-grabbing select-none snap-x snap-mandatory"
+            style={{ scrollbarWidth: 'none' }}>
+            {GALLERY_ITEMS.map((item, i) => (
+              <div key={item.id}
+                className={`shrink-0 w-72 sm:w-80 snap-start rounded-2xl overflow-hidden bg-white shd-card gallery-card reveal reveal-delay-${(i % 4) + 1}`}>
+                <div className="relative overflow-hidden group">
+                  <img
+                    data-reveal
+                    data-idx={i}
+                    src={item.imageUrl}
+                    alt={item.description}
+                    className="w-full h-[280px] sm:h-[380px] object-cover ken-burns"
+                    style={{
+                      filter: visibleCards.has(i) ? 'saturate(0.88)' : 'saturate(0.88) blur(12px)',
+                      transform: visibleCards.has(i) ? 'scale(1)' : 'scale(1.04)',
+                    }}
+                    referrerPolicy="no-referrer"
+                    draggable={false}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                  <span className="absolute top-4 left-4 text-[0.6rem] sm:text-[0.6rem] font-bold tracking-[0.15em] uppercase text-white bg-[#6b5c93]/80 backdrop-blur-sm px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out translate-y-1 group-hover:translate-y-0">
+                    {item.category}
+                  </span>
+                </div>
+                <div className="px-4 py-3 sm:p-5">
+                  <p className="text-[0.7rem] sm:text-sm text-[#6b6580] leading-relaxed">{item.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile-only centered nav buttons */}
+        <div className="flex sm:hidden justify-center gap-3 mt-6">
+          <button onClick={() => slideDir(-1)}
+            className="w-10 h-10 flex items-center justify-center glass-light rounded-full shd-card transition-all duration-300 hover:scale-110 cursor-pointer">
+            <ChevronLeft className="w-4 h-4 text-[#6b5c93]" />
+          </button>
+          <button onClick={() => slideDir(1)}
+            className="w-10 h-10 flex items-center justify-center glass-light rounded-full shd-card transition-all duration-300 hover:scale-110 cursor-pointer">
+            <ChevronRight className="w-4 h-4 text-[#6b5c93]" />
+          </button>
         </div>
       </div>
-
-      <div className="divider" />
     </section>
   );
 }

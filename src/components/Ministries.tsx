@@ -1,116 +1,169 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Smile, Users, Heart, ArrowRight, X, CheckCircle2 } from 'lucide-react';
 import { MINISTRIES } from '../data';
 import type { MinistryItem } from '../types';
 
 const ICON_MAP = {
-  smile: { Icon: Smile, accent: '#e07a68' },
-  users: { Icon: Users, accent: '#7a8ac8' },
-  heart: { Icon: Heart, accent: '#c47aaa' },
+  smile: { Icon: Smile, accent: '#e07a68', gradient: 'from-[#e07a68]/10 to-[#e07a68]/5' },
+  users: { Icon: Users, accent: '#7a8ac8', gradient: 'from-[#7a8ac8]/10 to-[#7a8ac8]/5' },
+  heart: { Icon: Heart, accent: '#c47aaa', gradient: 'from-[#c47aaa]/10 to-[#c47aaa]/5' },
 };
 
 export default function Ministries() {
   const [selected, setSelected] = useState<MinistryItem | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [success, setSuccess] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  const tiltRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.querySelectorAll('.reveal, .reveal-scale').forEach((el, i) => setTimeout(() => el.classList.add('visible'), i * 120));
+      });
+    }, { threshold: 0.1 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  // 3D tilt effect on cards
+  const handleTilt = useCallback((e: React.MouseEvent<HTMLDivElement>, idx: number) => {
+    const card = tiltRefs.current[idx];
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -3;
+    const rotateY = ((x - centerX) / centerX) * 3;
+    card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+  }, []);
+
+  const resetTilt = useCallback((idx: number) => {
+    const card = tiltRefs.current[idx];
+    if (!card) return;
+    card.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)';
+  }, []);
+
+  const handleCloseModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setSelected(null);
+      setIsClosing(false);
+      setSuccess(false);
+      setName('');
+      setEmail('');
+    }, 300);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
     setSuccess(true);
-    setTimeout(() => { setSuccess(false); setName(''); setEmail(''); setSelected(null); }, 3000);
+    setTimeout(() => { handleCloseModal(); }, 3000);
   };
 
   return (
-    <section id="ministries" className="section-white">
-      <div className="divider" />
-
-      <div className="max-w-6xl mx-auto px-6 sm:px-12 py-16 sm:py-24">
+    <section ref={ref} id="ministries" className="section section-white">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-10 sm:mb-14 space-y-4 max-w-xl">
-          <div className="label">Serving Every Heart</div>
-          <h2 className="h2 text-[#1a1625]">Our Ministries</h2>
-          <div className="divider w-16" style={{ background: '#7b6ba3' }} />
-          <p className="text-sm text-[#4a4456] leading-relaxed">
-            From our youngest members to our most seasoned elders, there is a place of belonging and purpose for every soul at Kalyanipura Church.
+        <div className="text-center mb-10 sm:mb-16 reveal">
+          <span className="label-tag mb-4 block">Serving Every Heart</span>
+          <h2 className="heading-lg mb-4">Our Ministries</h2>
+          <p className="text-body max-w-xl mx-auto">
+            From our youngest members to our most seasoned elders, there is a place of belonging and purpose for every soul.
           </p>
         </div>
 
-        {/* 3-column grid — hairline borders between cards, no card shadows */}
-        <div className="border border-[#e5e0ec]">
-          <div className="grid grid-cols-1 md:grid-cols-3">
-            {MINISTRIES.map((ministry, i) => {
-              const { Icon, accent } = ICON_MAP[ministry.iconName];
-              return (
-                <div key={ministry.id}
-                  className={`p-6 sm:p-8 flex flex-col gap-4 sm:gap-5 hover:bg-[#f9f7fc] transition-colors ${i < 2 ? 'border-b md:border-b-0 md:border-r border-[#e5e0ec]' : ''}`}>
-                  <div className="w-12 h-12 flex items-center justify-center" style={{ background: `${accent}18` }}>
-                    <Icon className="w-6 h-6" style={{ color: accent }} />
+        {/* Ministry Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {MINISTRIES.map((ministry, i) => {
+            const { Icon, accent, gradient } = ICON_MAP[ministry.iconName];
+            return (
+              <div key={ministry.id}
+                ref={el => { tiltRefs.current[i] = el; }}
+                className={`card group cursor-pointer reveal reveal-delay-${i + 1} relative overflow-hidden tilt-card`}
+                style={{ borderTop: `3px solid transparent`, transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                onMouseMove={(e) => handleTilt(e, i)}
+                onMouseLeave={() => { resetTilt(i); }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderTopColor = accent; }}
+                onMouseOut={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) e.currentTarget.style.borderTopColor = 'transparent'; }}>
+                {/* Background Gradient */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`} />
+
+                <div className="relative z-10 space-y-5">
+                  <div className="w-14 h-14 flex items-center justify-center rounded-2xl transition-all duration-300 group-hover:scale-110"
+                    style={{ background: `${accent}12` }}>
+                    <Icon className="w-7 h-7" style={{ color: accent }} />
                   </div>
 
-                  <div className="space-y-2 flex-1">
-                    <div className="text-[10px] font-mono tracking-widest uppercase text-[#8a8299]">
+                  <div className="space-y-2">
+                    <span className="text-[0.6rem] font-bold tracking-[0.15em] uppercase" style={{ color: `${accent}99` }}>
                       {ministry.tagline}
-                    </div>
-                    <h3 className="h3 text-[#1a1625]">{ministry.title}</h3>
-                    <p className="text-sm text-[#4a4456] leading-relaxed">{ministry.description}</p>
+                    </span>
+                    <h3 className="heading-sm text-[#1a1625] group-hover:text-[#6b5c93] transition-colors">{ministry.title}</h3>
+                    <p className="text-sm text-[#6b6580] leading-relaxed">{ministry.description}</p>
                   </div>
 
                   <button onClick={() => setSelected(ministry)}
-                    className="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-[#7b6ba3] hover:text-[#6b5c93] transition cursor-pointer group">
+                    className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#6b5c93] hover:text-[#4a3d6e] transition group/btn">
                     Learn More
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
                   </button>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <div className="divider" />
-
       {/* Modal */}
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-[#1a1625]/40 backdrop-blur-sm overflow-y-auto">
-          <div className="w-full max-w-lg bg-white border border-[#e5e0ec] p-8 space-y-6 relative shadow-none">
-            <button onClick={() => setSelected(null)}
-              className="absolute top-5 right-5 text-[#8a8299] hover:text-[#1a1625] transition cursor-pointer">
-              <X className="w-5 h-5" />
+        <div className={`fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-[#1a1625]/60 backdrop-blur-md overflow-y-auto modal-overlay ${isClosing ? 'closing' : ''}`}>
+          <div className={`w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 space-y-5 sm:space-y-6 relative shd-card-lg modal-content ${isClosing ? 'closing' : ''}`}>
+            <button onClick={handleCloseModal}
+              className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#6b5c93]/5 text-[#6b6580] hover:text-[#1a1625] transition cursor-pointer">
+              <X className="w-4 h-4" />
             </button>
             {!success ? (
               <>
                 <div>
-                  <div className="label mb-2">Get Involved</div>
-                  <h3 className="h3 text-[#1a1625]">{selected.title}</h3>
-                  <div className="divider w-12 mt-3" style={{ background: '#7b6ba3' }} />
+                  <span className="label-tag mb-3 block">Get Involved</span>
+                  <h3 className="heading-md text-[#1a1625]">{selected.title}</h3>
+                  <div className="w-12 h-[3px] mt-3 rounded-full bg-gradient-to-r from-[#e07a68] to-[#7b6ba3] shimmer-line" />
                 </div>
-                <p className="text-sm text-[#4a4456] leading-relaxed">{selected.detailedDescription}</p>
-                <div className="grid-2 text-xs">
-                  <div className="border border-[#e5e0ec] p-4">
-                    <div className="label mb-1 text-[10px]">Meeting Times</div>
-                    <span className="text-[#4a4456]">{selected.meetingTimes}</span>
+                <p className="text-sm text-[#6b6580] leading-relaxed">{selected.detailedDescription}</p>
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  <div className="bg-[#6b5c93]/5 rounded-xl p-4">
+                    <span className="label-tag text-[0.55rem] mb-1.5 block">Meeting Times</span>
+                    <span className="text-[#6b6580]">{selected.meetingTimes}</span>
                   </div>
-                  <div className="border border-[#e5e0ec] p-4">
-                    <div className="label mb-1 text-[10px]">Contact</div>
-                    <span className="text-[#4a4456] break-all">{selected.contactEmail}</span>
+                  <div className="bg-[#6b5c93]/5 rounded-xl p-4">
+                    <span className="label-tag text-[0.55rem] mb-1.5 block">Contact</span>
+                    <span className="text-[#6b6580] break-all">{selected.contactEmail}</span>
                   </div>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-3">
-                  <div className="label text-[10px] mb-1">Express Interest</div>
+                  <span className="label-tag text-[0.55rem] mb-1 block">Express Interest</span>
                   <input type="text" value={name} onChange={e => setName(e.target.value)}
-                    placeholder="Your full name" className="input-field w-full" />
+                    placeholder="Your full name" className="input" />
                   <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                    placeholder="Email address" className="input-field w-full" />
-                  <button type="submit" className="btn-primary w-full mt-2">Submit Interest</button>
+                    placeholder="Email address" className="input" />
+                  <button type="submit"
+                    className="inline-flex items-center justify-center w-full bg-[#6b5c93] text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#4a3d6e] mt-2"
+                    style={{ fontFamily: 'var(--font-heading)' }}>
+                    Submit Interest
+                  </button>
                 </form>
               </>
             ) : (
-              <div className="text-center py-10 space-y-4">
-                <CheckCircle2 className="w-12 h-12 text-[#7b6ba3] mx-auto" />
-                <h3 className="h3 text-[#1a1625]">Welcome to the Family</h3>
-                <p className="text-sm text-[#4a4456]">We'll be in touch soon. Blessings to you!</p>
+              <div className="text-center py-12 space-y-4">
+                <CheckCircle2 className="w-14 h-14 text-[#6b5c93] mx-auto" />
+                <h3 className="heading-md text-[#1a1625]">Welcome to the Family</h3>
+                <p className="text-sm text-[#6b6580]">We'll be in touch soon. Blessings to you!</p>
               </div>
             )}
           </div>
