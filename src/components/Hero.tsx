@@ -107,13 +107,15 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
 
             {/* Headline — Clip-Path Reveal */}
             <div>
-              <h1 className="text-white leading-[1.05] tracking-tight text-[2.5rem] sm:text-[3.5rem] lg:text-[5rem]" style={{ fontFamily: 'var(--font-display)' }}>
-                <span className="anim-clip-reveal inline-block" style={{ animationDelay: '1s' }}>Where Every</span>
-                <br />
-                <span className="anim-clip-reveal inline-block bg-gradient-to-r from-white via-white to-[#a0b0e0] bg-clip-text text-transparent" style={{ animationDelay: '1.15s' }}>
-                  Soul Belongs
+              <h1 className="text-white leading-[1.05] tracking-tight text-[2.5rem] sm:text-[3.5rem] lg:text-[5rem]" style={{ fontFamily: "'Cinzel Decorative', serif" }}>
+                <span className="anim-clip-reveal inline-block" style={{ animationDelay: '1s' }}>
+                  <span style={{ fontSize: '0.7em', fontWeight: 300 }}>Come to</span> <strong>Me</strong> <span style={{ fontSize: '0.45em', fontWeight: 300 }}>and</span><br />
+<span style={{ fontSize: '0.7em', fontWeight: 300 }}>Find</span> <strong>Rest</strong>.
                 </span>
               </h1>
+              <p className="anim-clip-reveal text-white/40 text-[0.65rem] sm:text-[0.75rem] tracking-wider mt-2" style={{ animationDelay: '1.15s' }}>
+                Gospel of Matthew 11:28
+              </p>
             </div>
 
             {/* Accent Line — Shimmer */}
