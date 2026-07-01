@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { X, Play, Globe, Radio } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
 
 interface WatchOnlineModalProps {
   isOpen: boolean;
@@ -7,6 +9,7 @@ interface WatchOnlineModalProps {
 }
 
 export default function WatchOnlineModal({ isOpen, onClose }: WatchOnlineModalProps) {
+  const { lang } = useLanguage();
   const [isClosing, setIsClosing] = useState(false);
 
   if (!isOpen) return null;
@@ -27,8 +30,8 @@ export default function WatchOnlineModal({ isOpen, onClose }: WatchOnlineModalPr
           <X className="w-4 h-4" />
         </button>
         <div>
-          <span className="label-tag mb-3 block">Stream Now</span>
-          <h2 className="heading-md text-[#1a1625]">Watch Online</h2>
+          <span className="label-tag mb-3 block">{t('watchModal', 'streamNow', lang)}</span>
+          <h2 className="heading-md text-[#1a1625]">{t('watchModal', 'watchOnline', lang)}</h2>
           <div className="w-10 h-[3px] mt-3 rounded-full bg-gradient-to-r from-[#e07a68] to-[#7b6ba3] shimmer-line" />
         </div>
 
@@ -48,16 +51,16 @@ export default function WatchOnlineModal({ isOpen, onClose }: WatchOnlineModalPr
           </button>
           <div className="absolute bottom-3 left-3 flex items-center gap-2 glass rounded-full px-3 py-1.5">
             <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-            <span className="text-[0.6rem] font-semibold text-white/90 tracking-wider uppercase">Live Now</span>
+            <span className="text-[0.6rem] font-semibold text-white/90 tracking-wider uppercase">{t('watchModal', 'liveNow', lang)}</span>
           </div>
         </div>
 
         {/* Streams */}
         <div className="space-y-3">
-          <span className="label-tag text-[0.55rem]">Available Streams</span>
+          <span className="label-tag text-[0.55rem]">{t('watchModal', 'availableStreams', lang)}</span>
           {[
-            { label: 'YouTube Live', Icon: Globe, desc: 'HD stream with live chat, available after service as replay.' },
-            { label: 'Church Online Platform', Icon: Radio, desc: 'Interactive platform with prayer hosts and notes.' },
+            { label: t('watchModal', 'youTubeLive', lang), Icon: Globe, desc: t('watchModal', 'youTubeDesc', lang) },
+            { label: t('watchModal', 'churchPlatform', lang), Icon: Radio, desc: t('watchModal', 'churchPlatformDesc', lang) },
           ].map(({ label, Icon, desc }) => (
             <div key={label} className="flex gap-4 items-start p-4 rounded-xl border border-[rgba(107,92,147,0.06)] hover:bg-[#6b5c93]/5 transition cursor-pointer group">
               <div className="w-10 h-10 flex items-center justify-center bg-[#6b5c93]/8 rounded-xl shrink-0 group-hover:scale-110 transition">
@@ -71,7 +74,7 @@ export default function WatchOnlineModal({ isOpen, onClose }: WatchOnlineModalPr
           ))}
         </div>
         <div className="text-[0.65rem] font-medium text-[#6b6580] tracking-wider text-center">
-          Sunday services at 9:00 AM & 11:00 AM
+          {t('watchModal', 'sundayServices', lang)}
         </div>
       </div>
     </div>

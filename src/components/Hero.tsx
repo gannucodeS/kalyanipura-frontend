@@ -3,6 +3,8 @@ import { Play, MapPin, Calendar, Users, BookOpen } from 'lucide-react';
 import heroBg from '../assets/hero demo 1.png';
 import heroMobileBg from '../assets/hero mobile.png';
 import heroTabletBg from '../assets/hero tablet.png';
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
 
 interface HeroProps {
   onOpenWatch: () => void;
@@ -33,6 +35,7 @@ function useCountUp(target: number, duration = 1200, startDelay = 0) {
 }
 
 export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
+  const { lang } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const years = useCountUp(70, 1200, 200);
@@ -101,20 +104,33 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
               <div className="anim-fade-down inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 sm:px-5 sm:py-2" style={{ animationDelay: '0.9s' }}>
               <Calendar className="w-3.5 h-3.5 text-[#e07a68]" />
               <span className="text-[0.6rem] sm:text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-white/80">
-                Established 1954
+                {t('hero', 'badge', lang)}
               </span>
             </div>
 
             {/* Headline — Clip-Path Reveal */}
             <div>
               <h1 className="text-white leading-[1.05] tracking-tight text-[2.5rem] sm:text-[3.5rem] lg:text-[5rem]" style={{ fontFamily: "'Cinzel Decorative', serif" }}>
-                <span className="anim-clip-reveal inline-block" style={{ animationDelay: '1s' }}>
-                  <span style={{ fontSize: '0.7em', fontWeight: 300 }}>Come to</span> <strong>Me</strong> <span style={{ fontSize: '0.45em', fontWeight: 300 }}>and</span><br />
-<span style={{ fontSize: '0.7em', fontWeight: 300 }}>Find</span> <strong>Rest</strong>.
+                <span className="anim-clip-reveal block" style={{ animationDelay: '1s' }}>
+                  {lang === 'en' ? (
+                    <><span style={{ fontSize: '0.7em', fontWeight: 300 }}>Come to</span> <strong>Me</strong> <span style={{ fontSize: '0.45em', fontWeight: 300 }}>and</span><br />
+<span style={{ fontSize: '0.7em', fontWeight: 300 }}>Find</span> <strong>Rest</strong>.</>
+                  ) : (
+                    <span className="pt-4 block w-full sm:w-1/2" style={{ fontSize: '0.7em', fontWeight: 300, lineHeight: 1.4, fontFamily: "'Tiro Devanagari Hindi', serif" }}>
+  <span style={{ display: 'flex', alignItems: 'center' }}>
+    <span style={{ whiteSpace: 'nowrap' }}>मेरे <strong style={{ fontSize: '1.35em', fontStyle: 'italic' }}>पास</strong> आओ <span style={{ fontSize: '0.47em' }}>और</span></span>
+    <span style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.25)', marginLeft: '1.5em', minWidth: '3em' }} />
+  </span>
+  <span style={{ display: 'flex', alignItems: 'center' }}>
+    <span style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.25)', minWidth: '3em' }} />
+    <span style={{ whiteSpace: 'nowrap', marginLeft: '0.75em' }}><strong style={{ fontSize: '1.8em', fontStyle: 'italic' }}>विश्राम</strong> पाओ।</span>
+  </span>
+</span>
+                  )}
                 </span>
               </h1>
               <p className="anim-clip-reveal text-white/40 text-[0.65rem] sm:text-[0.75rem] tracking-wider mt-2" style={{ animationDelay: '1.15s' }}>
-                Gospel of Matthew 11:28
+                {t('hero', 'reference', lang)}
               </p>
             </div>
 
@@ -125,7 +141,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
 
             {/* Description */}
             <p className="anim-fade-left text-[0.78rem] sm:text-base text-white/60 max-w-lg leading-relaxed font-light" style={{ animationDelay: '1.3s' }}>
-              A spiritual sanctuary in Kalyanipura dedicated to fostering belonging, renewal, and eternal purpose through faithful fellowship and genuine worship.
+              {t('hero', 'description', lang)}
             </p>
 
             {/* CTAs */}
@@ -134,13 +150,13 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
                 className="inline-flex items-center justify-center gap-2 sm:gap-2.5 bg-[#6b5c93] text-white font-semibold text-xs sm:text-sm uppercase tracking-wider px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#4a3d6e] hover:-translate-y-0.5 w-full sm:w-auto"
                 style={{ boxShadow: '0 8px 30px rgba(107, 92, 147, 0.4)', fontFamily: 'var(--font-heading)' }}>
                 <Play className="w-4 h-4 fill-current" />
-                Watch Live
+                {t('hero', 'watchLive', lang)}
               </button>
               <button onClick={onOpenContact}
                 className="inline-flex items-center justify-center gap-2 sm:gap-2.5 bg-white/10 text-white border border-white/30 font-semibold text-xs sm:text-sm uppercase tracking-wider px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:-translate-y-0.5 backdrop-blur-sm w-full sm:w-auto"
                 style={{ fontFamily: 'var(--font-heading)' }}>
                 <MapPin className="w-4 h-4" />
-                Visit Us
+                {t('hero', 'visitUs', lang)}
               </button>
             </div>
 
@@ -148,7 +164,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
             <div className="anim-fade-up hidden sm:flex items-center gap-3 text-white/40 text-xs font-light" style={{ animationDelay: '1.5s' }}>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-[#e07a68] animate-pulse" />
-                <span>Sunday Service &bull; 10:00 AM</span>
+                <span>{t('hero', 'sundayService', lang)}</span>
               </div>
             </div>
 
@@ -161,10 +177,10 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 pb-4 sm:pb-8">
           <div ref={statsRef} className="glass-strong rounded-2xl px-3 py-3 sm:px-10 sm:py-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 shd-card-lg">
             {[
-              { value: '1954', label: 'Established', icon: <Calendar className="w-4 h-4" /> },
-              { value: `${years.count > 0 ? years.count + '+' : '0'}`, label: 'Years of Ministry', icon: null },
-              { value: '', label: 'Fellowship', icon: <Users className="w-5 h-5" /> },
-              { value: '', label: 'Worship & Prayer', icon: <BookOpen className="w-5 h-5" /> },
+              { value: '1954', label: t('hero', 'established', lang), icon: <Calendar className="w-4 h-4" /> },
+              { value: `${years.count > 0 ? years.count + '+' : '0'}`, label: t('hero', 'yearsOfMinistry', lang), icon: null },
+              { value: '', label: t('hero', 'fellowship', lang), icon: <Users className="w-5 h-5" /> },
+              { value: '', label: t('hero', 'worshipPrayer', lang), icon: <BookOpen className="w-5 h-5" /> },
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center gap-1 sm:gap-1.5">
                 {stat.icon ? (

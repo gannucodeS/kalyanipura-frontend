@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-
-const QUOTE_WORDS = "For where two or three gather in my name, there am I with them.".split(' ');
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
 
 export default function ScriptureBanner() {
+  const { lang } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -32,7 +33,7 @@ export default function ScriptureBanner() {
           style={{ fontFamily: 'var(--font-display)' }}
         >
           &ldquo;
-          {QUOTE_WORDS.map((word, i) => (
+          {t('scriptureBanner', 'quote', lang).split(' ').map((word, i) => (
             <span
               key={i}
               className="word-reveal-child"
@@ -45,7 +46,7 @@ export default function ScriptureBanner() {
         </blockquote>
         <p className="mt-4 text-xs tracking-[0.2em] uppercase text-white/40 font-medium"
           style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.6s ease 1.2s' }}>
-          Matthew 18:20
+          {t('scriptureBanner', 'reference', lang)}
         </p>
         <div className="w-12 h-[2px] rounded-full bg-gradient-to-r from-[#7a8ac8] via-[#7b6ba3] to-[#e07a68] mx-auto mt-6 shimmer-line" />
       </div>

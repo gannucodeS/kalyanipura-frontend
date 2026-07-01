@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { X, Heart, Check, Shield } from 'lucide-react';
 import { submitGiving } from '../api';
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
 
 interface GivingModalProps {
   isOpen: boolean;
@@ -9,6 +11,7 @@ interface GivingModalProps {
 const AMOUNTS = ['25', '50', '100', '250', '500'];
 
 export default function GivingModal({ isOpen, onClose }: GivingModalProps) {
+  const { lang } = useLanguage();
   const [selectedAmount, setSelectedAmount] = useState('100');
   const [customAmount, setCustomAmount] = useState('');
   const [frequency, setFrequency] = useState<'once' | 'monthly'>('once');
@@ -54,11 +57,11 @@ export default function GivingModal({ isOpen, onClose }: GivingModalProps) {
         {!success ? (
           <>
             <div>
-              <span className="label-tag mb-3 block">Support the Mission</span>
-              <h2 className="heading-md text-[#1a1625]">Give & Tithe</h2>
+              <span className="label-tag mb-3 block">{t('givingModal', 'supportMission', lang)}</span>
+              <h2 className="heading-md text-[#1a1625]">{t('givingModal', 'giveTithe', lang)}</h2>
               <div className="w-10 h-[3px] mt-3 rounded-full bg-gradient-to-r from-[#e07a68] to-[#7b6ba3] shimmer-line" />
             </div>
-            <p className="text-sm text-[#6b6580]">Your generosity fuels everything we do. All contributions are tax-deductible.</p>
+            <p className="text-sm text-[#6b6580]">{t('givingModal', 'description', lang)}</p>
 
             {/* Frequency */}
             <div className="flex bg-[#6b5c93]/5 rounded-xl p-1">
@@ -67,14 +70,14 @@ export default function GivingModal({ isOpen, onClose }: GivingModalProps) {
                   className={`flex-1 py-2.5 text-[0.65rem] sm:text-xs font-semibold tracking-wider uppercase rounded-lg transition cursor-pointer ${
                     frequency === f ? 'bg-white text-[#6b5c93] ' : 'text-[#6b6580] hover:text-[#6b5c93]'
                   }`}>
-                  {f === 'once' ? 'One Time' : 'Monthly'}
+                  {f === 'once' ? t('givingModal', 'oneTime', lang) : t('givingModal', 'monthly', lang)}
                 </button>
               ))}
             </div>
 
             {/* Amounts */}
             <div>
-              <span className="label-tag text-[0.55rem] mb-3 block">Select Amount</span>
+              <span className="label-tag text-[0.55rem] mb-3 block">{t('givingModal', 'selectAmount', lang)}</span>
               <div className="grid grid-cols-5 gap-2 mb-3">
                 {AMOUNTS.map((amt) => (
                   <button key={amt} onClick={() => { setSelectedAmount(amt); setCustomAmount(''); }}
@@ -88,12 +91,12 @@ export default function GivingModal({ isOpen, onClose }: GivingModalProps) {
                 ))}
               </div>
               <input type="number" value={customAmount} onChange={e => { setCustomAmount(e.target.value); setSelectedAmount(''); }}
-                placeholder="Custom amount" className="input" />
+                placeholder={t('givingModal', 'customAmount', lang)} className="input" />
             </div>
 
             <form onSubmit={handleGive} className="space-y-3">
-              <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Full name" className="input" />
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email address" className="input" />
+              <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder={t('givingModal', 'fullName', lang)} className="input" />
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t('givingModal', 'emailAddress', lang)} className="input" />
               <button type="submit"
                 className="inline-flex items-center justify-center gap-2 w-full bg-[#6b5c93] text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#4a3d6e] mt-2"
                 style={{ fontFamily: 'var(--font-heading)' }}>
@@ -102,7 +105,7 @@ export default function GivingModal({ isOpen, onClose }: GivingModalProps) {
               </button>
             </form>
             <div className="flex items-center justify-center gap-2 text-[0.6rem] font-semibold text-[#6b6580] tracking-wider">
-              <Shield className="w-3.5 h-3.5" /> 256-bit SSL Encrypted
+              <Shield className="w-3.5 h-3.5" /> {t('givingModal', 'sslEncrypted', lang)}
             </div>
           </>
         ) : (
@@ -110,8 +113,8 @@ export default function GivingModal({ isOpen, onClose }: GivingModalProps) {
             <div className="w-16 h-16 rounded-full bg-[#6b5c93]/10 flex items-center justify-center mx-auto">
               <Check className="w-8 h-8 text-[#6b5c93]" />
             </div>
-            <h3 className="heading-md text-[#1a1625]">Bless You!</h3>
-            <p className="text-sm text-[#6b6580]">Your gift of ₹{displayAmount} has been received. A receipt arrives in your inbox shortly.</p>
+            <h3 className="heading-md text-[#1a1625]">{t('givingModal', 'blessYou', lang)}</h3>
+            <p className="text-sm text-[#6b6580]">{t('givingModal', 'receiptMsg', lang)}</p>
           </div>
         )}
       </div>

@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { Heart, ArrowRight, Shield, Eye, Receipt } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
 
 interface GivingBannerProps {
   onOpenGiving: () => void;
 }
 
 export default function GivingBanner({ onOpenGiving }: GivingBannerProps) {
+  const { lang } = useLanguage();
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -39,11 +42,11 @@ export default function GivingBanner({ onOpenGiving }: GivingBannerProps) {
                 <Heart className="w-6 h-6 text-white fill-white" />
               </div>
               <div>
-                <span className="text-[0.65rem] font-bold tracking-[0.15em] uppercase text-[#e07a68]">Support the Mission</span>
-                <h2 className="heading-lg text-white mt-3" style={{ color: 'white' }}>Generosity Transforms Communities</h2>
+                <span className="text-[0.65rem] font-bold tracking-[0.15em] uppercase text-[#e07a68]">{t('givingBanner', 'supportMission', lang)}</span>
+                <h2 className="heading-lg text-white mt-3" style={{ color: 'white' }}>{t('givingBanner', 'heading', lang)}</h2>
               </div>
               <p className="text-[0.9rem] text-white/60 leading-relaxed max-w-md">
-                Your faithful giving sustains our ministries, outreach programs, and community services. Every gift — of any size — makes an eternal difference in the lives we serve together.
+                {t('givingBanner', 'description', lang)}
               </p>
             </div>
 
@@ -54,12 +57,12 @@ export default function GivingBanner({ onOpenGiving }: GivingBannerProps) {
                   className="inline-flex items-center justify-center gap-2.5 bg-white text-[#6b5c93] font-semibold text-sm uppercase tracking-wider px-8 py-4 rounded-xl cursor-pointer transition-all duration-300 hover:-translate-y-0.5 w-full"
                   style={{ boxShadow: '0 8px 30px rgba(0, 0, 0, 0.15)', fontFamily: 'var(--font-heading)' }}>
                   <Heart className="w-4 h-4 fill-[#6b5c93]" />
-                  Give Now
+                  {t('givingBanner', 'giveNow', lang)}
                 </button>
                 <button onClick={onOpenGiving}
                   className="inline-flex items-center justify-center gap-2.5 bg-white/10 text-white border border-white/20 font-semibold text-sm uppercase tracking-wider px-8 py-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/20 w-full"
                   style={{ fontFamily: 'var(--font-heading)' }}>
-                  Learn About Tithing
+                  {t('givingBanner', 'learnAboutTithing', lang)}
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -67,9 +70,9 @@ export default function GivingBanner({ onOpenGiving }: GivingBannerProps) {
               {/* Trust */}
               <div className="space-y-3 pt-5 border-t border-white/10">
                 {[
-                  { Icon: Shield, text: 'Secure & Encrypted' },
-                  { Icon: Eye, text: 'Fully Transparent' },
-                  { Icon: Receipt, text: 'Tax Deductible' },
+                  { Icon: Shield, text: t('givingBanner', 'secureEncrypted', lang) },
+                  { Icon: Eye, text: t('givingBanner', 'fullyTransparent', lang) },
+                  { Icon: Receipt, text: t('givingBanner', 'taxDeductible', lang) },
                 ].map(({ Icon, text }) => (
                   <div key={text} className="flex items-center gap-3 text-xs font-medium text-white/50 hover:text-white/80 transition cursor-default group">
                     <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center transition group-hover:bg-white/15">

@@ -3,6 +3,9 @@ import { Smile, Users, Heart, ArrowRight, X, CheckCircle2 } from 'lucide-react';
 import { MINISTRIES as STATIC_DATA } from '../data';
 import type { MinistryItem } from '../types';
 import { getMinistries, submitMinistryInterest } from '../api';
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
+import { df } from '../utils/dynamicFields';
 
 const ICON_MAP = {
   smile: { Icon: Smile, accent: '#e07a68', gradient: 'from-[#e07a68]/10 to-[#e07a68]/5' },
@@ -11,6 +14,7 @@ const ICON_MAP = {
 };
 
 export default function Ministries() {
+  const { lang } = useLanguage();
   const [items, setItems] = useState(STATIC_DATA);
   const [selected, setSelected] = useState<MinistryItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
@@ -80,10 +84,10 @@ export default function Ministries() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-16 reveal">
-          <span className="label-tag mb-4 block">Serving Every Heart</span>
-          <h2 className="heading-lg mb-4">Our Ministries</h2>
-          <p className="text-body max-w-xl mx-auto">
-            From our youngest members to our most seasoned elders, there is a place of belonging and purpose for every soul.
+          <span className="label-tag mb-4 block">{t('ministries', 'servingEveryHeart', lang)}</span>
+          <h2 className="heading-lg mb-4">{t('ministries', 'heading', lang)}</h2>
+          <p className="text-[#6b6580] max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            {t('ministries', 'description', lang)}
           </p>
         </div>
 
@@ -111,15 +115,15 @@ export default function Ministries() {
 
                   <div className="space-y-2">
                     <span className="text-[0.6rem] font-bold tracking-[0.15em] uppercase" style={{ color: `${accent}99` }}>
-                      {ministry.tagline}
+                      {df(ministry, 'tagline', lang)}
                     </span>
-                    <h3 className="heading-sm text-[#1a1625] group-hover:text-[#6b5c93] transition-colors">{ministry.title}</h3>
-                    <p className="text-sm text-[#6b6580] leading-relaxed">{ministry.description}</p>
+                    <h3 className="heading-sm text-[#1a1625] group-hover:text-[#6b5c93] transition-colors">{df(ministry, 'title', lang)}</h3>
+                    <p className="text-sm text-[#6b6580] leading-relaxed">{df(ministry, 'description', lang)}</p>
                   </div>
 
                   <button onClick={() => setSelected(ministry)}
                     className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#6b5c93] hover:text-[#4a3d6e] transition group/btn">
-                    Learn More
+                    {t('ministries', 'learnMore', lang)}
                     <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
                   </button>
                 </div>
@@ -140,39 +144,39 @@ export default function Ministries() {
             {!success ? (
               <>
                 <div>
-                  <span className="label-tag mb-3 block">Get Involved</span>
-                  <h3 className="heading-md text-[#1a1625]">{selected.title}</h3>
+                  <span className="label-tag mb-3 block">{t('ministries', 'getInvolved', lang)}</span>
+                  <h3 className="heading-md text-[#1a1625]">{df(selected, 'title', lang)}</h3>
                   <div className="w-12 h-[3px] mt-3 rounded-full bg-gradient-to-r from-[#e07a68] to-[#7b6ba3] shimmer-line" />
                 </div>
-                <p className="text-sm text-[#6b6580] leading-relaxed">{selected.detailedDescription}</p>
+                <p className="text-sm text-[#6b6580] leading-relaxed">{df(selected, 'detailedDescription', lang)}</p>
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <div className="bg-[#6b5c93]/5 rounded-xl p-4">
-                    <span className="label-tag text-[0.55rem] mb-1.5 block">Meeting Times</span>
-                    <span className="text-[#6b6580]">{selected.meetingTimes}</span>
+                    <span className="label-tag text-[0.55rem] mb-1.5 block">{t('ministries', 'meetingTimes', lang)}</span>
+                    <span className="text-[#6b6580]">{df(selected, 'meetingTimes', lang)}</span>
                   </div>
                   <div className="bg-[#6b5c93]/5 rounded-xl p-4">
-                    <span className="label-tag text-[0.55rem] mb-1.5 block">Contact</span>
+                    <span className="label-tag text-[0.55rem] mb-1.5 block">{t('ministries', 'contact', lang)}</span>
                     <span className="text-[#6b6580] break-all">{selected.contactEmail}</span>
                   </div>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-3">
-                  <span className="label-tag text-[0.55rem] mb-1 block">Express Interest</span>
+                  <span className="label-tag text-[0.55rem] mb-1 block">{t('ministries', 'expressInterest', lang)}</span>
                   <input type="text" value={name} onChange={e => setName(e.target.value)}
-                    placeholder="Your full name" className="input" />
+                    placeholder={t('ministries', 'yourFullName', lang)} className="input" />
                   <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                    placeholder="Email address" className="input" />
+                    placeholder={t('ministries', 'emailAddress', lang)} className="input" />
                   <button type="submit"
                     className="inline-flex items-center justify-center w-full bg-[#6b5c93] text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#4a3d6e] mt-2"
                     style={{ fontFamily: 'var(--font-heading)' }}>
-                    Submit Interest
+                            {t('ministries', 'submitInterest', lang)}
                   </button>
                 </form>
               </>
             ) : (
               <div className="text-center py-12 space-y-4">
                 <CheckCircle2 className="w-14 h-14 text-[#6b5c93] mx-auto" />
-                <h3 className="heading-md text-[#1a1625]">Welcome to the Family</h3>
-                <p className="text-sm text-[#6b6580]">We'll be in touch soon. Blessings to you!</p>
+                <h3 className="heading-md text-[#1a1625]">{t('ministries', 'welcomeFamily', lang)}</h3>
+                <p className="text-sm text-[#6b6580]">{t('ministries', 'blessingMsg', lang)}</p>
               </div>
             )}
           </div>

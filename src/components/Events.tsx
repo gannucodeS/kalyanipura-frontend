@@ -3,6 +3,9 @@ import { Calendar, MapPin, Clock, Users, X, Check } from 'lucide-react';
 import { EVENTS as STATIC_DATA } from '../data';
 import type { EventItem } from '../types';
 import { getEvents, submitRsvp } from '../api';
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
+import { df } from '../utils/dynamicFields';
 
 const MONTH_ACCENT: Record<string, string> = {
   OCT: '#e07a68',
@@ -11,6 +14,7 @@ const MONTH_ACCENT: Record<string, string> = {
 };
 
 export default function Events() {
+  const { lang } = useLanguage();
   const [items, setItems] = useState<EventItem[]>(STATIC_DATA);
   const [selected, setSelected] = useState<EventItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
@@ -64,12 +68,12 @@ export default function Events() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-16 reveal">
           <div>
             <span className="label-tag mb-4 block">
-              <Calendar className="w-3.5 h-3.5" /> Join Us
+              <Calendar className="w-3.5 h-3.5" /> {t('events', 'joinUs', lang)}
             </span>
-            <h2 className="heading-lg">Upcoming Events</h2>
+            <h2 className="heading-lg">{t('events', 'heading', lang)}</h2>
           </div>
           <span className="text-[0.65rem] font-semibold text-[#6b6580] tracking-[0.12em] uppercase">
-            {items.length} events this season
+            {items.length} {t('events', 'eventsThisSeason', lang)}
           </span>
         </div>
 
@@ -95,24 +99,24 @@ export default function Events() {
                 {/* Content */}
                 <div className="flex-1 p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
                   <div className="flex-1 space-y-2">
-                    <h3 className="heading-sm text-[#1a1625] group-hover:text-[#6b5c93] transition-colors">{event.title}</h3>
+                    <h3 className="heading-sm text-[#1a1625] group-hover:text-[#6b5c93] transition-colors">{df(event, 'title', lang)}</h3>
                     <div className="flex flex-wrap gap-3 text-xs font-medium text-[#6b6580]">
-                      <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-[#6b5c93]" /> {event.time}</span>
-                      <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-[#6b5c93]" /> {event.location}</span>
-                      <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5 text-[#6b5c93]" /> {event.rsvpCount} attending</span>
+                      <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-[#6b5c93]" /> {df(event, 'time', lang)}</span>
+                      <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-[#6b5c93]" /> {df(event, 'location', lang)}</span>
+                      <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5 text-[#6b5c93]" /> {event.rsvpCount} {t('events', 'attending', lang)}</span>
                     </div>
-                    <p className="text-xs text-[#6b6580] leading-relaxed hidden sm:block">{event.description}</p>
+                    <p className="text-xs text-[#6b6580] leading-relaxed hidden sm:block">{df(event, 'description', lang)}</p>
                   </div>
                   <div className="flex gap-2 shrink-0">
                     <button onClick={() => { setSelected(event); setIsRsvp(false); }}
                       className="inline-flex items-center justify-center bg-transparent text-[#6b5c93] border border-[rgba(107,92,147,0.25)] font-semibold text-[0.65rem] uppercase tracking-wider px-4 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:bg-[#6b5c93]/5"
                       style={{ fontFamily: 'var(--font-heading)' }}>
-                      Details
+                      {t('events', 'details', lang)}
                     </button>
                     <button onClick={() => { setSelected(event); setIsRsvp(true); }}
                       className="inline-flex items-center justify-center bg-[#6b5c93] text-white font-semibold text-[0.65rem] uppercase tracking-wider px-4 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:bg-[#4a3d6e]"
                       style={{ fontFamily: 'var(--font-heading)' }}>
-                      RSVP
+                      {t('events', 'rsvp', lang)}
                     </button>
                   </div>
                 </div>
@@ -136,24 +140,26 @@ export default function Events() {
                   <span className="label-tag mb-2 block">
                     <Calendar className="w-3 h-3" /> {selected.month} {selected.day}
                   </span>
-                  <h3 className="heading-md text-[#1a1625] mt-1">{selected.title}</h3>
+                  <h3 className="heading-md text-[#1a1625] mt-1">{df(selected, 'title', lang)}</h3>
                   <div className="w-12 h-[3px] mt-3 rounded-full bg-gradient-to-r from-[#e07a68] to-[#7b6ba3] shimmer-line" />
                 </div>
                 <div className="space-y-2 text-sm text-[#6b6580]">
-                  <div className="flex items-center gap-2.5"><Clock className="w-4 h-4 text-[#6b5c93]" /> {selected.time}</div>
-                  <div className="flex items-center gap-2.5"><MapPin className="w-4 h-4 text-[#6b5c93]" /> {selected.location}</div>
-                  <div className="flex items-center gap-2.5"><Users className="w-4 h-4 text-[#6b5c93]" /> {selected.rsvpCount} people registered</div>
+                  <div className="flex items-center gap-2.5"><Clock className="w-4 h-4 text-[#6b5c93]" /> {df(selected, 'time', lang)}
+                  </div>
+                  <div className="flex items-center gap-2.5"><MapPin className="w-4 h-4 text-[#6b5c93]" /> {df(selected, 'location', lang)}
+                  </div>
+                  <div className="flex items-center gap-2.5"><Users className="w-4 h-4 text-[#6b5c93]" /> {selected.rsvpCount} {t('events', 'peopleRegistered', lang)}</div>
                 </div>
-                <p className="text-sm text-[#6b6580] leading-relaxed">{selected.description}</p>
+                <p className="text-sm text-[#6b6580] leading-relaxed">{df(selected, 'description', lang)}</p>
                 {isRsvp && (
                   <form onSubmit={handleRsvp} className="space-y-3 border-t border-[rgba(107,92,147,0.08)] pt-5">
-                    <span className="label-tag text-[0.55rem] mb-1 block">Reserve Your Seat</span>
-                    <input type="text" value={guestName} onChange={e => setGuestName(e.target.value)} placeholder="Full name" className="input" />
-                    <input type="email" value={guestEmail} onChange={e => setGuestEmail(e.target.value)} placeholder="Email address" className="input" />
+                    <span className="label-tag text-[0.55rem] mb-1 block">{t('events', 'reserveSeat', lang)}</span>
+                    <input type="text" value={guestName} onChange={e => setGuestName(e.target.value)} placeholder={t('events', 'fullName', lang)} className="input" />
+                    <input type="email" value={guestEmail} onChange={e => setGuestEmail(e.target.value)} placeholder={t('events', 'emailAddress', lang)} className="input" />
                     <button type="submit"
                       className="inline-flex items-center justify-center w-full bg-[#6b5c93] text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#4a3d6e] mt-2"
                       style={{ fontFamily: 'var(--font-heading)' }}>
-                      Confirm Registration
+                      {t('events', 'confirmRegistration', lang)}
                     </button>
                   </form>
                 )}
@@ -163,8 +169,8 @@ export default function Events() {
                 <div className="w-16 h-16 rounded-full bg-[#6b5c93]/10 flex items-center justify-center mx-auto">
                   <Check className="w-8 h-8 text-[#6b5c93]" />
                 </div>
-                <h3 className="heading-md text-[#1a1625]">You're Registered!</h3>
-                <p className="text-sm text-[#6b6580]">Confirmation sent to your inbox. We look forward to seeing you!</p>
+                <h3 className="heading-md text-[#1a1625]">{t('events', 'youreRegistered', lang)}</h3>
+                <p className="text-sm text-[#6b6580]">{t('events', 'registrationMsg', lang)}</p>
               </div>
             )}
           </div>

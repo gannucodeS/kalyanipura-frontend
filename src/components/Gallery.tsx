@@ -2,8 +2,12 @@ import { useRef, useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { GALLERY_ITEMS as STATIC_DATA } from '../data';
 import { getGallery } from '../api';
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
+import { df } from '../utils/dynamicFields';
 
 export default function Gallery() {
+  const { lang } = useLanguage();
   const [items, setItems] = useState(STATIC_DATA);
   const sectionRef = useRef<HTMLElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -85,8 +89,8 @@ export default function Gallery() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12 reveal">
           <div>
-            <span className="label-tag mb-4 block">Our Community</span>
-            <h2 className="heading-lg">Life at Kalyanipura</h2>
+            <span className="label-tag mb-4 block">{t('gallery', 'ourCommunity', lang)}</span>
+            <h2 className="heading-lg">{t('gallery', 'heading', lang)}</h2>
           </div>
           <div className="hidden sm:flex gap-2">
             <button onClick={() => slideDir(-1)}
@@ -120,7 +124,7 @@ export default function Gallery() {
                     data-reveal
                     data-idx={i}
                     src={item.imageUrl}
-                    alt={item.description}
+                    alt={df(item, 'description', lang)}
                     className="w-full h-[280px] sm:h-[380px] object-cover ken-burns"
                     style={{
                       filter: visibleCards.has(i) ? 'saturate(0.88)' : 'saturate(0.88) blur(12px)',
@@ -131,11 +135,11 @@ export default function Gallery() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
                   <span className="absolute top-4 left-4 text-[0.6rem] sm:text-[0.6rem] font-bold tracking-[0.15em] uppercase text-white bg-[#6b5c93]/80 backdrop-blur-sm px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out translate-y-1 group-hover:translate-y-0">
-                    {item.category}
+                    {df(item, 'category', lang)}
                   </span>
                 </div>
                 <div className="px-4 py-3 sm:p-5">
-                  <p className="text-[0.7rem] sm:text-sm text-[#6b6580] leading-relaxed">{item.description}</p>
+                  <p className="text-[0.7rem] sm:text-sm text-[#6b6580] leading-relaxed">{df(item, 'description', lang)}</p>
                 </div>
               </div>
             ))}

@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Rss, Share2, Globe, Mail, Phone, MapPin, Flame, ArrowUp } from 'lucide-react';
 import footLogo from '../assets/foot-logo.png';
+import { useLanguage } from '../i18n/LanguageContext';
+import { t } from '../i18n/translations';
 
 interface FooterProps {
   onOpenContact: () => void;
@@ -9,6 +11,7 @@ interface FooterProps {
 }
 
 export default function Footer({ onOpenContact, onOpenGiving, onOpenPrayer }: FooterProps) {
+  const { lang } = useLanguage();
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   const ref = useRef<HTMLElement>(null);
 
@@ -32,7 +35,7 @@ export default function Footer({ onOpenContact, onOpenGiving, onOpenPrayer }: Fo
               <img src={footLogo} alt="Kalyanipura Church" className="h-10 w-auto transition-transform duration-300 group-hover:scale-105" />
             </button>
             <p className="text-sm text-white/40 leading-relaxed max-w-xs">
-              A beacon of hope and center for spiritual growth. Sharing Christ's love through action, fellowship, and worship since 1954.
+              {t('footer', 'description', lang)}
             </p>
             <div className="flex gap-3">
               {[Rss, Share2, Globe].map((Icon, i) => (
@@ -46,14 +49,14 @@ export default function Footer({ onOpenContact, onOpenGiving, onOpenPrayer }: Fo
 
           {/* Quick Links */}
           <div className="md:col-span-3 space-y-5 reveal reveal-left reveal-delay-2">
-            <span className="text-[0.65rem] font-bold tracking-[0.15em] uppercase text-[#7b6ba3]">Quick Links</span>
+            <span className="text-[0.65rem] font-bold tracking-[0.15em] uppercase text-[#7b6ba3]">{t('footer', 'quickLinks', lang)}</span>
             <ul className="space-y-3">
               {[
-                { label: 'Our History', action: () => scrollTo('hero') },
-                { label: 'Beliefs', action: () => scrollTo('service-times') },
-                { label: 'Leadership', action: () => scrollTo('ministries') },
-                { label: 'Giving', action: onOpenGiving },
-                { label: 'Contact', action: onOpenContact },
+                { label: t('footer', 'ourHistory', lang), action: () => scrollTo('hero') },
+                { label: t('footer', 'beliefs', lang), action: () => scrollTo('service-times') },
+                { label: t('footer', 'leadership', lang), action: () => scrollTo('ministries') },
+                { label: t('footer', 'giving', lang), action: onOpenGiving },
+                { label: t('footer', 'contact', lang), action: onOpenContact },
               ].map(({ label, action }) => (
                 <li key={label}>
                   <button onClick={action}
@@ -67,7 +70,7 @@ export default function Footer({ onOpenContact, onOpenGiving, onOpenPrayer }: Fo
 
           {/* Contact */}
           <div className="md:col-span-4 space-y-5 reveal reveal-right reveal-delay-3">
-            <span className="text-[0.65rem] font-bold tracking-[0.15em] uppercase text-[#7b6ba3]">Contact</span>
+            <span className="text-[0.65rem] font-bold tracking-[0.15em] uppercase text-[#7b6ba3]">{t('footer', 'contactHeading', lang)}</span>
             <ul className="space-y-4">
               {[
                 { Icon: Mail, text: 'hello@kalyanipurachurch.org' },
@@ -89,17 +92,17 @@ export default function Footer({ onOpenContact, onOpenGiving, onOpenPrayer }: Fo
         <div className="pt-8 border-t border-white/8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3">
             <span className="text-[0.6rem] font-medium text-white/20 tracking-[0.12em] uppercase">
-              &copy; 2026 Kalyanipura Church. All Rights Reserved.
+              {t('footer', 'copyright', lang)}
             </span>
             <a href="https://kalyanipura-backend.onrender.com/admin" target="_blank" rel="noopener noreferrer"
               className="text-[0.5rem] font-medium text-white/10 hover:text-white/30 tracking-wider uppercase transition-all duration-300">
-              Admin
+              {t('footer', 'admin', lang)}
             </a>
           </div>
           <div className="flex items-center gap-4">
             <button onClick={onOpenPrayer}
               className="flex items-center gap-1.5 text-[0.6rem] font-semibold tracking-[0.12em] uppercase text-[#7b6ba3] hover:text-[#c0b4d8] transition-all duration-300 cursor-pointer">
-              <Flame className="w-3 h-3" /> Prayer Wall
+              <Flame className="w-3 h-3" /> {t('footer', 'prayerWall', lang)}
             </button>
             <button onClick={() => scrollTo('hero')}
               className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/30 hover:text-white hover:bg-[#6b5c93]/30 transition-all duration-300 cursor-pointer">

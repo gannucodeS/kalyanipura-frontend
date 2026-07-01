@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from './components/Navbar';
+import LangToggle from './components/LangToggle';
 import Hero from './components/Hero';
 import ScriptureBanner from './components/ScriptureBanner';
 import ServiceTimes from './components/ServiceTimes';
@@ -56,6 +57,7 @@ export default function App() {
           onOpenPrayer={() => setIsPrayerOpen(true)}
           onOpenWatch={() => setIsWatchOpen(true)}
         />
+        <LangToggle />
         <main className="flex-1">
           <Hero onOpenWatch={() => setIsWatchOpen(true)} onOpenContact={() => setIsContactOpen(true)} />
           <ScriptureBanner />
