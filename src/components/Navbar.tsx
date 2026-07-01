@@ -25,7 +25,7 @@ export default function Navbar({ onOpenGiving, onOpenPrayer, onOpenWatch }: Navb
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 anim-fade-down">
+    <header className="fixed top-0 left-0 right-0 z-50 navbar-reveal">
       <div className={`mx-4 sm:mx-6 lg:mx-8 mt-4 transition-all duration-500 rounded-2xl ${
         scrolled
           ? 'glass-light shd-nav'

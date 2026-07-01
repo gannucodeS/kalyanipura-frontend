@@ -39,8 +39,16 @@ body {
    ═══════════════════════════════════════════ */
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes navbarSlideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.navbar-reveal {
+  animation: navbarSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.1s both;
 }
 
 @keyframes fadeInDown {
@@ -707,7 +715,8 @@ body {
   .anim-fade-up,
   .anim-scale,
   .anim-clip-reveal,
-  .anim-clip-reveal-up {
+  .anim-clip-reveal-up,
+  .navbar-reveal {
     animation: none;
   }
   .tilt-card,
