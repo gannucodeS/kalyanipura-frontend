@@ -1,14 +1,20 @@
 import { useRef, useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { GALLERY_ITEMS } from '../data';
+import { GALLERY_ITEMS as STATIC_DATA } from '../data';
+import { getGallery } from '../api';
 
 export default function Gallery() {
+  const [items, setItems] = useState(STATIC_DATA);
   const sectionRef = useRef<HTMLElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
+
+  useEffect(() => {
+    getGallery().then(setItems).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
@@ -106,7 +112,7 @@ export default function Gallery() {
             onTouchEnd={() => setIsDragging(false)}
             className="flex gap-5 overflow-x-auto pb-6 cursor-grab active:cursor-grabbing select-none snap-x snap-mandatory"
             style={{ scrollbarWidth: 'none' }}>
-            {GALLERY_ITEMS.map((item, i) => (
+            {items.map((item, i) => (
               <div key={item.id}
                 className={`shrink-0 w-72 sm:w-80 snap-start rounded-2xl overflow-hidden bg-white shd-card gallery-card reveal reveal-delay-${(i % 4) + 1}`}>
                 <div className="relative overflow-hidden group">

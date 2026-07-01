@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Flame, Check, Heart } from 'lucide-react';
+import { submitPrayerRequest } from '../api';
 
 interface PrayerRequestModalProps {
   isOpen: boolean;
@@ -36,11 +37,14 @@ export default function PrayerRequestModal({ isOpen, onClose }: PrayerRequestMod
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!request.trim()) return;
-    setSuccess(true);
-    setTimeout(() => { handleClose(); }, 3000);
+    try {
+      await submitPrayerRequest({ name, category, request, isAnonymous });
+      setSuccess(true);
+      setTimeout(() => { handleClose(); }, 3000);
+    } catch {}
   };
 
   return (

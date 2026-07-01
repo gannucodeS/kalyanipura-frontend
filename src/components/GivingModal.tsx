@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Heart, Check, Shield } from 'lucide-react';
+import { submitGiving } from '../api';
 
 interface GivingModalProps {
   isOpen: boolean;
@@ -31,11 +32,14 @@ export default function GivingModal({ isOpen, onClose }: GivingModalProps) {
     }, 300);
   };
 
-  const handleGive = (e: React.FormEvent) => {
+  const handleGive = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
-    setSuccess(true);
-    setTimeout(() => { handleClose(); }, 3500);
+    try {
+      await submitGiving({ name, email, amount: Number(displayAmount), frequency });
+      setSuccess(true);
+      setTimeout(() => { handleClose(); }, 3500);
+    } catch {}
   };
 
   const displayAmount = customAmount || selectedAmount;

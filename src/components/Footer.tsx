@@ -87,9 +87,15 @@ export default function Footer({ onOpenContact, onOpenGiving, onOpenPrayer }: Fo
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <span className="text-[0.6rem] font-medium text-white/20 tracking-[0.12em] uppercase">
-            &copy; 2026 Kalyanipura Church. All Rights Reserved.
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="text-[0.6rem] font-medium text-white/20 tracking-[0.12em] uppercase">
+              &copy; 2026 Kalyanipura Church. All Rights Reserved.
+            </span>
+            <a href="https://kalyanipura-backend.onrender.com/admin" target="_blank" rel="noopener noreferrer"
+              className="text-[0.5rem] font-medium text-white/10 hover:text-white/30 tracking-wider uppercase transition-all duration-300">
+              Admin
+            </a>
+          </div>
           <div className="flex items-center gap-4">
             <button onClick={onOpenPrayer}
               className="flex items-center gap-1.5 text-[0.6rem] font-semibold tracking-[0.12em] uppercase text-[#7b6ba3] hover:text-[#c0b4d8] transition-all duration-300 cursor-pointer">

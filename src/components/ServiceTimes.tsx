@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Sun, Moon, Users, Clock, ArrowRight } from 'lucide-react';
-import { SERVICE_TIMES } from '../data';
+import { SERVICE_TIMES as STATIC_DATA } from '../data';
+import { getServiceTimes } from '../api';
 
 interface ServiceTimesProps {
   onOpenPrayer: () => void;
@@ -13,7 +14,12 @@ const ICON_MAP = {
 };
 
 export default function ServiceTimes({ onOpenPrayer }: ServiceTimesProps) {
+  const [items, setItems] = useState(STATIC_DATA);
   const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    getServiceTimes().then(setItems).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
@@ -38,7 +44,7 @@ export default function ServiceTimes({ onOpenPrayer }: ServiceTimesProps) {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10 items-start">
           {/* Service Cards — enter from left */}
           <div className="lg:col-span-3 space-y-4">
-            {SERVICE_TIMES.map((service, i) => {
+            {items.map((service, i) => {
               const { Icon, accent, bg } = ICON_MAP[service.icon];
               return (
                 <div key={service.id}

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Calendar, MapPin, Clock, Users, X, Check } from 'lucide-react';
-import { EVENTS } from '../data';
+import { EVENTS as STATIC_DATA } from '../data';
 import type { EventItem } from '../types';
+import { getEvents, submitRsvp } from '../api';
 
 const MONTH_ACCENT: Record<string, string> = {
   OCT: '#e07a68',
@@ -10,14 +11,18 @@ const MONTH_ACCENT: Record<string, string> = {
 };
 
 export default function Events() {
+  const [items, setItems] = useState<EventItem[]>(STATIC_DATA);
   const [selected, setSelected] = useState<EventItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [isRsvp, setIsRsvp] = useState(false);
   const [success, setSuccess] = useState(false);
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
-  const [localEvents, setLocalEvents] = useState<EventItem[]>(EVENTS);
   const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    getEvents().then(setItems).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
@@ -41,12 +46,15 @@ export default function Events() {
     }, 300);
   };
 
-  const handleRsvp = (e: React.FormEvent) => {
+  const handleRsvp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!guestName.trim() || !guestEmail.trim()) return;
-    if (selected) setLocalEvents(prev => prev.map(ev => ev.id === selected.id ? { ...ev, rsvpCount: ev.rsvpCount + 1 } : ev));
-    setSuccess(true);
-    setTimeout(() => { handleCloseModal(); }, 3200);
+    if (!guestName.trim() || !guestEmail.trim() || !selected) return;
+    try {
+      await submitRsvp(selected.id, { name: guestName, email: guestEmail });
+      setItems(prev => prev.map(ev => ev.id === selected.id ? { ...ev, rsvpCount: ev.rsvpCount + 1 } : ev));
+      setSuccess(true);
+      setTimeout(() => { handleCloseModal(); }, 3200);
+    } catch {}
   };
 
   return (
@@ -61,13 +69,13 @@ export default function Events() {
             <h2 className="heading-lg">Upcoming Events</h2>
           </div>
           <span className="text-[0.65rem] font-semibold text-[#6b6580] tracking-[0.12em] uppercase">
-            {localEvents.length} events this season
+            {items.length} events this season
           </span>
         </div>
 
         {/* Event Cards */}
         <div className="space-y-4">
-          {localEvents.map((event, i) => {
+          {items.map((event, i) => {
             const accent = MONTH_ACCENT[event.month] ?? '#7b6ba3';
             return (
               <div key={event.id}

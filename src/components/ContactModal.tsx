@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Mail, Phone, MapPin, Clock, Check, Send } from 'lucide-react';
+import { submitContact } from '../api';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -29,11 +30,14 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !message.trim()) return;
-    setSuccess(true);
-    setTimeout(() => { handleClose(); }, 3500);
+    try {
+      await submitContact({ name, email, topic, message });
+      setSuccess(true);
+      setTimeout(() => { handleClose(); }, 3500);
+    } catch {}
   };
 
   return (

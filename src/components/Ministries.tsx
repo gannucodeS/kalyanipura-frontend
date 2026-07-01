@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Smile, Users, Heart, ArrowRight, X, CheckCircle2 } from 'lucide-react';
-import { MINISTRIES } from '../data';
+import { MINISTRIES as STATIC_DATA } from '../data';
 import type { MinistryItem } from '../types';
+import { getMinistries, submitMinistryInterest } from '../api';
 
 const ICON_MAP = {
   smile: { Icon: Smile, accent: '#e07a68', gradient: 'from-[#e07a68]/10 to-[#e07a68]/5' },
@@ -10,6 +11,7 @@ const ICON_MAP = {
 };
 
 export default function Ministries() {
+  const [items, setItems] = useState(STATIC_DATA);
   const [selected, setSelected] = useState<MinistryItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [name, setName] = useState('');
@@ -17,6 +19,10 @@ export default function Ministries() {
   const [success, setSuccess] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const tiltRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    getMinistries().then(setItems).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
@@ -59,11 +65,14 @@ export default function Ministries() {
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) return;
-    setSuccess(true);
-    setTimeout(() => { handleCloseModal(); }, 3000);
+    if (!name.trim() || !email.trim() || !selected) return;
+    try {
+      await submitMinistryInterest(selected.id, { name, email });
+      setSuccess(true);
+      setTimeout(() => { handleCloseModal(); }, 3000);
+    } catch {}
   };
 
   return (
@@ -80,7 +89,7 @@ export default function Ministries() {
 
         {/* Ministry Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {MINISTRIES.map((ministry, i) => {
+          {items.map((ministry, i) => {
             const { Icon, accent, gradient } = ICON_MAP[ministry.iconName];
             return (
               <div key={ministry.id}
