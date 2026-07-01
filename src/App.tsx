@@ -22,8 +22,8 @@ export default function App() {
   const [curtainPhase, setCurtainPhase] = useState<'loading' | 'opening' | 'lifted'>('loading');
 
   useEffect(() => {
-    const openTimer = setTimeout(() => setCurtainPhase('opening'), 2200);
-    const liftTimer = setTimeout(() => setCurtainPhase('lifted'), 3200);
+    const openTimer = setTimeout(() => setCurtainPhase('opening'), 1100);
+    const liftTimer = setTimeout(() => setCurtainPhase('lifted'), 1600);
     return () => { clearTimeout(openTimer); clearTimeout(liftTimer); };
   }, []);
 

@@ -98,7 +98,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
           {/* Left — Text Content */}
           <div className="space-y-4 sm:space-y-8">
             {/* Badge */}
-            <div className="anim-fade-down inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 sm:px-5 sm:py-2" style={{ animationDelay: '1.8s' }}>
+              <div className="anim-fade-down inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 sm:px-5 sm:py-2" style={{ animationDelay: '0.9s' }}>
               <Calendar className="w-3.5 h-3.5 text-[#e07a68]" />
               <span className="text-[0.6rem] sm:text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-white/80">
                 Established 1954
@@ -108,26 +108,26 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
             {/* Headline — Clip-Path Reveal */}
             <div>
               <h1 className="text-white leading-[1.05] tracking-tight text-[2.5rem] sm:text-[3.5rem] lg:text-[5rem]" style={{ fontFamily: 'var(--font-display)' }}>
-                <span className="anim-clip-reveal inline-block" style={{ animationDelay: '2s' }}>Where Every</span>
+                <span className="anim-clip-reveal inline-block" style={{ animationDelay: '1s' }}>Where Every</span>
                 <br />
-                <span className="anim-clip-reveal inline-block bg-gradient-to-r from-white via-white to-[#a0b0e0] bg-clip-text text-transparent" style={{ animationDelay: '2.3s' }}>
+                <span className="anim-clip-reveal inline-block bg-gradient-to-r from-white via-white to-[#a0b0e0] bg-clip-text text-transparent" style={{ animationDelay: '1.15s' }}>
                   Soul Belongs
                 </span>
               </h1>
             </div>
 
             {/* Accent Line — Shimmer */}
-            <div style={{ animationDelay: '2.5s' }}>
+            <div style={{ animationDelay: '1.25s' }}>
               <div className="w-16 sm:w-20 h-[3px] rounded-full bg-gradient-to-r from-[#e07a68] via-[#7b6ba3] to-[#7a8ac8] shimmer-line" />
             </div>
 
             {/* Description */}
-            <p className="anim-fade-left text-[0.78rem] sm:text-base text-white/60 max-w-lg leading-relaxed font-light" style={{ animationDelay: '2.6s' }}>
+            <p className="anim-fade-left text-[0.78rem] sm:text-base text-white/60 max-w-lg leading-relaxed font-light" style={{ animationDelay: '1.3s' }}>
               A spiritual sanctuary in Kalyanipura dedicated to fostering belonging, renewal, and eternal purpose through faithful fellowship and genuine worship.
             </p>
 
             {/* CTAs */}
-            <div className="anim-fade-up flex flex-col sm:flex-row gap-3" style={{ animationDelay: '2.8s' }}>
+            <div className="anim-fade-up flex flex-col sm:flex-row gap-3" style={{ animationDelay: '1.4s' }}>
               <button onClick={onOpenWatch}
                 className="inline-flex items-center justify-center gap-2 sm:gap-2.5 bg-[#6b5c93] text-white font-semibold text-xs sm:text-sm uppercase tracking-wider px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#4a3d6e] hover:-translate-y-0.5 w-full sm:w-auto"
                 style={{ boxShadow: '0 8px 30px rgba(107, 92, 147, 0.4)', fontFamily: 'var(--font-heading)' }}>
@@ -143,7 +143,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
             </div>
 
             {/* Micro Info */}
-            <div className="anim-fade-up hidden sm:flex items-center gap-3 text-white/40 text-xs font-light" style={{ animationDelay: '3s' }}>
+            <div className="anim-fade-up hidden sm:flex items-center gap-3 text-white/40 text-xs font-light" style={{ animationDelay: '1.5s' }}>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-[#e07a68] animate-pulse" />
                 <span>Sunday Service &bull; 10:00 AM</span>
@@ -155,7 +155,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
       </div>
 
       {/* ─── Trust Bar ─── */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 anim-fade-up" style={{ animationDelay: '3.2s' }}>
+      <div className="absolute bottom-0 left-0 right-0 z-10 anim-fade-up" style={{ animationDelay: '1.6s' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 pb-4 sm:pb-8">
           <div ref={statsRef} className="glass-strong rounded-2xl px-3 py-3 sm:px-10 sm:py-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 shd-card-lg">
             {[
