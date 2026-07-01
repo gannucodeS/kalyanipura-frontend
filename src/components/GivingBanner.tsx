@@ -40,7 +40,7 @@ export default function GivingBanner({ onOpenGiving }: GivingBannerProps) {
               </div>
               <div>
                 <span className="text-[0.65rem] font-bold tracking-[0.15em] uppercase text-[#e07a68]">Support the Mission</span>
-                <h2 className="heading-lg text-white mt-3">Generosity Transforms Communities</h2>
+                <h2 className="heading-lg text-white mt-3" style={{ color: 'white' }}>Generosity Transforms Communities</h2>
               </div>
               <p className="text-[0.9rem] text-white/60 leading-relaxed max-w-md">
                 Your faithful giving sustains our ministries, outreach programs, and community services. Every gift — of any size — makes an eternal difference in the lives we serve together.
