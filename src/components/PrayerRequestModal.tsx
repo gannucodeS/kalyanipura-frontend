@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { X, Flame, Check, Heart } from 'lucide-react';
-import { submitPrayerRequest } from '../api';
+import { getPrayerRequests, submitPrayerRequest, prayForRequest } from '../api';
+import type { PrayerRequest } from '../types';
 import { useLanguage } from '../i18n/LanguageContext';
 import { t } from '../i18n/translations';
 
@@ -9,11 +10,6 @@ interface PrayerRequestModalProps {
   onClose: () => void;
 }
 const CATEGORIES = ['Guidance', 'Healing', 'Comfort', 'Thanksgiving', 'Other'] as const;
-const SAMPLE_REQUESTS = [
-  { name: 'Sarah M.', category: 'Healing', request: 'Praying for full recovery after surgery. Grateful for the love of this church family.', count: 34 },
-  { name: 'Anonymous', category: 'Guidance', request: 'Seeking wisdom for a major life decision. Trusting in His plan.', count: 21 },
-  { name: 'James K.', category: 'Thanksgiving', request: 'Praising God for our new baby girl, born healthy and strong!', count: 58 },
-];
 
 export default function PrayerRequestModal({ isOpen, onClose }: PrayerRequestModalProps) {
   const { lang } = useLanguage();
@@ -23,8 +19,20 @@ export default function PrayerRequestModal({ isOpen, onClose }: PrayerRequestMod
   const [category, setCategory] = useState<typeof CATEGORIES[number]>('Guidance');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [prayed, setPrayed] = useState<Set<number>>(new Set());
+  const [requests, setRequests] = useState<PrayerRequest[]>([]);
+  const [prayed, setPrayed] = useState<Set<string>>(new Set());
   const [isClosing, setIsClosing] = useState(false);
+
+  const loadRequests = useCallback(async () => {
+    try {
+      const data = await getPrayerRequests();
+      setRequests(data);
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    if (isOpen && tab === 'wall') loadRequests();
+  }, [isOpen, tab, loadRequests]);
 
   if (!isOpen) return null;
 
@@ -78,25 +86,36 @@ export default function PrayerRequestModal({ isOpen, onClose }: PrayerRequestMod
 
         {tab === 'wall' ? (
           <div className="space-y-4 max-h-[360px] overflow-y-auto">
-            {SAMPLE_REQUESTS.map((req, i) => (
-              <div key={i} className="border border-[rgba(107,92,147,0.06)] rounded-xl p-5 space-y-3 hover:shadow-md transition">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-[#1a1625]">{req.name}</span>
-                  <span className="text-[0.55rem] font-bold tracking-wider uppercase text-[#6b5c93] bg-[#6b5c93]/8 px-2.5 py-1 rounded-full">
-                    {req.category}
-                  </span>
+            {requests.length === 0 ? (
+              <p className="text-center text-sm text-[#6b6580] py-8">{t('prayerModal', 'noPrayers', lang)}</p>
+            ) : (
+              requests.map((req) => (
+                <div key={req.id} className="border border-[rgba(107,92,147,0.06)] rounded-xl p-5 space-y-3 hover:shadow-md transition">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-[#1a1625]">{req.name}</span>
+                    <span className="text-[0.55rem] font-bold tracking-wider uppercase text-[#6b5c93] bg-[#6b5c93]/8 px-2.5 py-1 rounded-full">
+                      {req.category}
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#6b6580] leading-relaxed italic">&ldquo;{req.request}&rdquo;</p>
+                  <button
+                    onClick={async () => {
+                      if (prayed.has(req.id)) return;
+                      try {
+                        await prayForRequest(req.id);
+                        setPrayed(prev => new Set(prev).add(req.id));
+                        setRequests(prev => prev.map(r => r.id === req.id ? { ...r, prayedCount: r.prayedCount + 1 } : r));
+                      } catch {}
+                    }}
+                    className={`flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase transition cursor-pointer ${
+                      prayed.has(req.id) ? 'text-[#6b5c93]' : 'text-[#6b6580] hover:text-[#6b5c93]'
+                    }`}>
+                    <Heart className={`w-3.5 h-3.5 ${prayed.has(req.id) ? 'fill-[#6b5c93]' : ''}`} />
+                    {req.prayedCount + (prayed.has(req.id) ? 1 : 0)} {t('prayerModal', 'praying', lang)}
+                  </button>
                 </div>
-                <p className="text-sm text-[#6b6580] leading-relaxed italic">&ldquo;{req.request}&rdquo;</p>
-                <button
-                  onClick={() => setPrayed(prev => {               const n = new Set(prev); if (n.has(i)) { n.delete(i); } else { n.add(i); } return n; })}
-                  className={`flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase transition cursor-pointer ${
-                    prayed.has(i) ? 'text-[#6b5c93]' : 'text-[#6b6580] hover:text-[#6b5c93]'
-                  }`}>
-                  <Heart className={`w-3.5 h-3.5 ${prayed.has(i) ? 'fill-[#6b5c93]' : ''}`} />
-                  {req.count + (prayed.has(i) ? 1 : 0)} {t('prayerModal', 'praying', lang)}
-                </button>
-              </div>
-            ))}
+              ))
+            )}
             <button onClick={() => setTab('submit')}
               className="inline-flex items-center justify-center w-full bg-[#6b5c93] text-white font-semibold text-xs uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#4a3d6e] mt-2"
               style={{ fontFamily: 'var(--font-heading)' }}>

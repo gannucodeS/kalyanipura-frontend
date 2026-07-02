@@ -36,3 +36,14 @@ export interface EventItem {
   description: string;
   rsvpCount: number;
 }
+
+export interface PrayerRequest {
+  id: string;
+  name: string;
+  category: string;
+  request: string;
+  isAnonymous: boolean;
+  prayedCount: number;
+  isApproved: boolean;
+  createdAt: string;
+}

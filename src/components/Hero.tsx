@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { Play, MapPin, Calendar, Users, BookOpen } from 'lucide-react';
 import heroBg from '../assets/hero demo 1.png';
 import heroMobileBg from '../assets/hero mobile.png';
@@ -67,7 +67,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
 
   return (
     <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
-      {/* ─── Background Images (parallax layers) ─── */}
+      {/* --- Background Images (parallax layers) --- */}
       <div className="hero-bg-layer absolute inset-0 sm:hidden anim-scale will-change-transform" style={{
         backgroundImage: `url(${heroMobileBg})`,
         backgroundSize: 'cover',
@@ -84,17 +84,17 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         backgroundPosition: 'center 40%',
       }} />
 
-      {/* ─── Gradient Overlays ─── */}
+      {/* --- Gradient Overlays --- */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
 
-      {/* ─── Decorative Elements ─── */}
+      {/* --- Decorative Elements --- */}
       <div className="anim-float absolute top-[15%] right-[10%] w-3 h-3 rounded-full bg-white/20 pointer-events-none" style={{ animationDelay: '1s' }} />
       <div className="anim-float-slow absolute top-[25%] right-[25%] w-2 h-2 rounded-full bg-[#7a8ac8]/30 pointer-events-none" style={{ animationDelay: '3s' }} />
       <div className="anim-float absolute bottom-[35%] left-[12%] w-2 h-2 rounded-full bg-[#e07a68]/25 pointer-events-none" style={{ animationDelay: '2s' }} />
       <div className="anim-float-slow absolute top-[45%] right-[5%] w-1.5 h-1.5 rounded-full bg-white/15 pointer-events-none" />
 
-      {/* ─── Content ─── */}
+      {/* --- Content --- */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-28 sm:pt-32 pb-28 sm:pb-40">
         <div className="max-w-3xl">
 
@@ -113,17 +113,17 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
               <h1 className="text-white leading-[1.05] tracking-tight text-[2.5rem] sm:text-[3.5rem] lg:text-[5rem]" style={{ fontFamily: "'Cinzel Decorative', serif" }}>
                 <span className="anim-clip-reveal block" style={{ animationDelay: '1s' }}>
                   {lang === 'en' ? (
-                    <><span style={{ fontSize: '0.7em', fontWeight: 300 }}>Come to</span> <strong>Me</strong> <span style={{ fontSize: '0.45em', fontWeight: 300 }}>and</span><br />
-<span style={{ fontSize: '0.7em', fontWeight: 300 }}>Find</span> <strong>Rest</strong>.</>
+                    <><span style={{ fontSize: '0.7em', lineHeight: 1, verticalAlign: 'middle', opacity: 0.35, marginRight: '0.15em', fontFamily: "'Georgia', serif" }}>❝</span><span style={{ fontSize: '0.7em', fontWeight: 300 }}>Come to</span> <strong>Me</strong> <span style={{ fontSize: '0.45em', fontWeight: 300 }}>and</span><br />
+<span style={{ fontSize: '0.7em', fontWeight: 300 }}>Find</span> <strong>Rest</strong><span style={{ fontSize: '0.35em', lineHeight: 1, verticalAlign: 'bottom', opacity: 0.3, marginLeft: '0.1em', fontFamily: "'Georgia', serif" }}>❞</span></>
                   ) : (
                     <span className="pt-4 block w-full sm:w-1/2" style={{ fontSize: '0.7em', fontWeight: 300, lineHeight: 1.4, fontFamily: "'Tiro Devanagari Hindi', serif" }}>
   <span style={{ display: 'flex', alignItems: 'center' }}>
-    <span style={{ whiteSpace: 'nowrap' }}>मेरे <strong style={{ fontSize: '1.35em', fontStyle: 'italic' }}>पास</strong> आओ <span style={{ fontSize: '0.47em' }}>और</span></span>
+    <span style={{ whiteSpace: 'nowrap' }}><span style={{ fontSize: '0.7em', lineHeight: 1, opacity: 0.35, marginRight: '0.15em', fontFamily: "'Georgia', serif", position: 'relative', top: '-0.2em' }}>❝</span>मेरे <strong style={{ fontSize: '1.35em', fontStyle: 'italic' }}>पास</strong> आओ <span style={{ fontSize: '0.47em' }}>और</span></span>
     <span style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.25)', marginLeft: '1.5em', minWidth: '3em' }} />
   </span>
   <span style={{ display: 'flex', alignItems: 'center' }}>
     <span style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.25)', minWidth: '3em' }} />
-    <span style={{ whiteSpace: 'nowrap', marginLeft: '0.75em' }}><strong style={{ fontSize: '1.8em', fontStyle: 'italic' }}>विश्राम</strong> पाओ।</span>
+    <span style={{ whiteSpace: 'nowrap', marginLeft: '0.75em' }}><strong style={{ fontSize: '1.8em', fontStyle: 'italic' }}>विश्राम</strong> पाओ<span style={{ fontSize: '0.35em', lineHeight: 1, opacity: 0.3, marginLeft: '0.1em', fontFamily: "'Georgia', serif", position: 'relative', top: '-0.35em' }}>❞</span></span>
   </span>
 </span>
                   )}
@@ -172,7 +172,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         </div>
       </div>
 
-      {/* ─── Trust Bar ─── */}
+      {/* --- Trust Bar --- */}
       <div className="absolute bottom-0 left-0 right-0 z-10 anim-fade-up" style={{ animationDelay: '1.6s' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 pb-4 sm:pb-8">
           <div ref={statsRef} className="glass-strong rounded-2xl px-3 py-3 sm:px-10 sm:py-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 shd-card-lg">
@@ -197,7 +197,7 @@ export default function Hero({ onOpenWatch, onOpenContact }: HeroProps) {
         </div>
       </div>
 
-      {/* ─── Bottom Curve ─── */}
+      {/* --- Bottom Curve --- */}
       <div className="absolute bottom-0 left-0 right-0 z-[5]">
         <svg viewBox="0 0 1440 80" fill="none" className="w-full block" preserveAspectRatio="none">
           <path d="M0,60 C360,0 720,80 1080,20 C1260,0 1380,40 1440,60 L1440,80 L0,80Z" fill="var(--color-cream)" />

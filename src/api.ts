@@ -1,4 +1,4 @@
-import type { ServiceTime, GalleryItem, MinistryItem, EventItem } from './types';
+import type { ServiceTime, GalleryItem, MinistryItem, EventItem, PrayerRequest } from './types';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
 
@@ -45,6 +45,12 @@ export async function getEvents(): Promise<EventItem[]> {
   const json = await request('/events');
   const items = json.data && Array.isArray(json.data) ? json.data : json;
   return Array.isArray(items) ? items.map(mapId) as EventItem[] : [];
+}
+
+export async function getPrayerRequests(): Promise<PrayerRequest[]> {
+  const json = await request('/prayer-requests?sort=-createdAt');
+  const items = json.data && Array.isArray(json.data) ? json.data : json;
+  return Array.isArray(items) ? items.map(mapId) as PrayerRequest[] : [];
 }
 
 export async function submitPrayerRequest(data: Record<string, unknown>) {

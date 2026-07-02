@@ -110,6 +110,7 @@ export const translations: Record<string, Record<string, TranslationValue>> = {
     prayerSubmitted: { en: 'Prayer Submitted', hi: 'प्रार्थना भेजी गई' },
     prayerSubmittedMsg: { en: 'Our intercessors are lifting this to the Lord. You are not alone.', hi: 'हमारे मध्यस्थ इसे प्रभु के सामने रख रहे हैं। आप अकेले नहीं हैं।' },
     praying: { en: 'Praying', hi: 'प्रार्थना कर रहे' },
+    noPrayers: { en: 'No prayer requests yet. Be the first!', hi: 'अभी तक कोई प्रार्थना अनुरोध नहीं। पहले बनें!' },
   },
   contactModal: {
     getInTouch: { en: 'Get in Touch', hi: 'संपर्क करें' },
