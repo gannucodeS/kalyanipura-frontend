@@ -42,6 +42,7 @@ export interface PrayerRequest {
   name: string;
   category: string;
   request: string;
+  requestHi?: string;
   isAnonymous: boolean;
   prayedCount: number;
   isApproved: boolean;

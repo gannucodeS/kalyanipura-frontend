@@ -4,6 +4,7 @@ import { getPrayerRequests, submitPrayerRequest, prayForRequest } from '../api';
 import type { PrayerRequest } from '../types';
 import { useLanguage } from '../i18n/LanguageContext';
 import { t } from '../i18n/translations';
+import { df } from '../utils/dynamicFields';
 
 interface PrayerRequestModalProps {
   isOpen: boolean;
@@ -97,7 +98,7 @@ export default function PrayerRequestModal({ isOpen, onClose }: PrayerRequestMod
                       {req.category}
                     </span>
                   </div>
-                  <p className="text-sm text-[#6b6580] leading-relaxed italic">&ldquo;{req.request}&rdquo;</p>
+                  <p className="text-sm text-[#6b6580] leading-relaxed italic">&ldquo;{df(req, 'request', lang)}&rdquo;</p>
                   <button
                     onClick={async () => {
                       if (prayed.has(req.id)) return;
